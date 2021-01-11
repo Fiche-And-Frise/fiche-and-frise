@@ -1,10 +1,7 @@
-package com.example.fichefrise.presentation.display;
+package com.example.fichefrise.presentation.display.fiche;
 
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
-
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -19,6 +16,6 @@ public class DetailFicheActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Character Details");
+        getSupportActionBar().setTitle("Aperçu d'une fiche");
     }
 }
