@@ -1,8 +1,10 @@
-package com.example.fichefrise;
+package com.example.fichefrise.presentation.display;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.fichefrise.R;
 
 public class MainActivity extends AppCompatActivity {
 
