@@ -13,13 +13,22 @@ import com.example.fichefrise.R;
 public class FicheFragment extends Fragment {
 
     private View view;
+    public String name = "";
 
-    public FicheFragment(){
-
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public static FicheFragment newInstance() {
-        return new FicheFragment();
+    public FicheFragment(int type){
+        if(type == 0){
+            setName("RECTO");
+        }else{
+            setName("VERSO");
+        }
+    }
+
+    public static FicheFragment newInstance(int type) {
+        return new FicheFragment(type);
     }
 
     @Override
