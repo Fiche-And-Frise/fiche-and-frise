@@ -1,4 +1,6 @@
-package com.example.fichefrise.data.api.model;
+package com.example.fichefrise.data.api;
+
+import com.example.fichefrise.data.api.model.Fiche;
 
 import java.util.List;
 
