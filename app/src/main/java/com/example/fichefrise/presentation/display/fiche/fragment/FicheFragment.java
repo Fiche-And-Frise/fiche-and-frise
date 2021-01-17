@@ -1,4 +1,4 @@
-package com.example.fichefrise.presentation.display.fiche;
+package com.example.fichefrise.presentation.display.fiche.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

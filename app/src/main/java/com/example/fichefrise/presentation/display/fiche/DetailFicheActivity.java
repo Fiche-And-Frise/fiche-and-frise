@@ -8,10 +8,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.fichefrise.R;
+import com.example.fichefrise.presentation.display.fiche.fragment.FicheFragment;
 
 public class DetailFicheActivity extends AppCompatActivity {
 

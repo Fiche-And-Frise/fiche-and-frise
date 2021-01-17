@@ -38,7 +38,7 @@ public class FicheViewModel extends ViewModel{
                     public void onError(Throwable e) {
                         System.out.println(e.toString());
                     }
-                    
+
                 }));
     }
 
