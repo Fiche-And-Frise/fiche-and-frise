@@ -1,5 +1,7 @@
 package com.example.fichefrise.data.di;
 
+import android.content.Context;
+
 import com.example.fichefrise.data.api.FicheDisplayService;
 import com.google.gson.Gson;
 
@@ -13,6 +15,7 @@ public class FakeDependencyInjection {
 
     private static Retrofit retrofit;
     private static Gson gson;
+    private static Context applicationContext;
 
     private static FicheDisplayService ficheDisplayService;
 
@@ -40,6 +43,10 @@ public class FakeDependencyInjection {
             gson = new Gson();
         }
         return gson;
+    }
+
+    public static void setContext(Context context) {
+        applicationContext = context;
     }
 
     public static FicheDisplayService ficheDisplayService() {
