@@ -2,4 +2,6 @@
     <string name="app_name">Fiche&amp;Frise</string>
     <string name="detailed_fiche">Aperçu Fiche</string>
     <string name="ficheicon">FicheIcon</string>
+    <string name="add_new_fiche">Add new fiche</string>
+    <string name="list_or_grid_mode">list or grid mode</string>
 </resources>
