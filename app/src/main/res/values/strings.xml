@@ -4,4 +4,6 @@
     <string name="ficheicon">FicheIcon</string>
     <string name="add_new_fiche">Add new fiche</string>
     <string name="list_or_grid_mode">list or grid mode</string>
+    <string name="alphabetic_theme_sort">alphabetic or theme sort</string>
+
 </resources>

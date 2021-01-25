@@ -7,7 +7,7 @@ public class Theme {
     private String name;
     private String color;
     private List<Fiche> fiches;
-    private List<Frise> frises;
+    //private List<Frise> frises;
 
     public String getName() {
         return name;
@@ -33,11 +33,11 @@ public class Theme {
         this.fiches = fiches;
     }
 
-    public List<Frise> getFrises() {
+    /*public List<Frise> getFrises() {
         return frises;
     }
 
     public void setFrises(List<Frise> frises) {
         this.frises = frises;
-    }
+    }*/
 }

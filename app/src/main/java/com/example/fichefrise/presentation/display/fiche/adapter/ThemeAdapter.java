@@ -47,7 +47,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ThemeViewHol
         private TextView themeNameTextView;
         private RecyclerView ficheRecyclerView;
         private RecyclerView.LayoutManager layoutManager;
-        private FicheAdapter adapter;
+        private FicheAdapter ficheAdapter;
         private View v;
         private Theme theme;
 
@@ -62,12 +62,12 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ThemeViewHol
             this.themeNameTextView.setText(theme.getName());
             ficheRecyclerView = v.findViewById(R.id.fiches_recyclerview);
             layoutManager = new LinearLayoutManager(v.getContext());
-            adapter = new FicheAdapter();
+            ficheAdapter = new FicheAdapter();
 
             FicheToViewModelMapper mapper = new FicheToViewModelMapper();
 
-            adapter.bindFicheViewModelList(mapper.map(theme.getFiches()));
-            ficheRecyclerView.setAdapter(this.adapter);
+            ficheAdapter.bindFicheViewModelList(mapper.map(theme.getFiches()));
+            ficheRecyclerView.setAdapter(this.ficheAdapter);
             ficheRecyclerView.setLayoutManager(this.layoutManager);
         }
     }

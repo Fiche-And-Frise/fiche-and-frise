@@ -12,11 +12,12 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.example.fichefrise.R;
 
@@ -27,11 +28,15 @@ public class FichesListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
-    private ThemeAdapter adapter;
+    private ThemeAdapter themeAdapter;
+    private FicheAdapter ficheAdapter;
     private List<FicheViewItem> fichesListStatic = new ArrayList<>();
+    private List<FicheViewItem> fichesList = new ArrayList<>();
     private List<Theme> allThemes = new ArrayList<>();
+    private static int sort = 0;
 
     private Toolbar toolbar;
+    private ImageView btn_alpha_theme_sort;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +47,11 @@ public class FichesListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Liste des fiches");
 
-        createFiches();
+        createFichesWithThemes();
+        createFichesWithoutThemes();
 
         setupRecyclerView();
+
         /*FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,14 +64,61 @@ public class FichesListActivity extends AppCompatActivity {
 
     private void setupRecyclerView() {
         recyclerView =findViewById(R.id.themes_recyclerview);
+
         layoutManager = new LinearLayoutManager(this);
-        adapter = new ThemeAdapter();
-        adapter.bindFicheViewModelList(allThemes);
-        recyclerView.setAdapter(this.adapter);
+
+        ficheAdapter = new FicheAdapter();
+        ficheAdapter.bindFicheViewModelList(fichesListStatic);
+
+        themeAdapter = new ThemeAdapter();
+        themeAdapter.bindFicheViewModelList(allThemes);
+
+        recyclerView.setAdapter(this.themeAdapter);
         recyclerView.setLayoutManager(this.layoutManager);
+
+        btn_alpha_theme_sort = findViewById(R.id.image_alpha_theme_sort);
+
+        btn_alpha_theme_sort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(sort == 0){
+                    btn_alpha_theme_sort.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_sort_by_alpha_24));
+                    recyclerView.setAdapter(themeAdapter);
+                    recyclerView.setLayoutManager(layoutManager);
+                    sort = 1;
+                }else{
+                    btn_alpha_theme_sort.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_theme_24));
+                    recyclerView.setAdapter(ficheAdapter);
+                    recyclerView.setLayoutManager(layoutManager);
+                    sort = 0;
+                }
+            }
+        });
+
+
+
     }
 
-    private void createFiches(){
+
+    private void createFichesWithoutThemes(){
+        ArrayList<FicheViewItem> list = new ArrayList<>();
+        FicheViewItem f1 = new FicheViewItem();
+        f1.setFicheId(1);
+        f1.setNomFiche("La première fiche");
+        list.add(f1);
+
+        FicheViewItem f2 = new FicheViewItem();
+        f2.setFicheId(2);
+        f2.setNomFiche("La deuxième fiche");
+        list.add(f2);
+
+        FicheViewItem f3 = new FicheViewItem();
+        f3.setFicheId(3);
+        f3.setNomFiche("La première guerre mondiale");
+        list.add(f3);
+        this.fichesList = list;
+    }
+    private void createFichesWithThemes(){
         ArrayList<FicheViewItem> list = new ArrayList<>();
         FicheViewItem f1 = new FicheViewItem();
         f1.setFicheId(1);
