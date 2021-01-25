@@ -1,20 +1,37 @@
 package com.example.fichefrise.data.api.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class Theme {
 
-    private String name;
-    private String color;
-    private List<Fiche> fiches;
-    //private List<Frise> frises;
+    @SerializedName("id")
+    private int themeId;
 
-    public String getName() {
-        return name;
+    @SerializedName("name")
+    private String nomTheme;
+
+    @SerializedName("color")
+    private String color;
+
+    @SerializedName("listFiches")
+    private List<Fiche> listFiches;
+
+    public int getThemeId() {
+        return themeId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setThemeId(int themeId) {
+        this.themeId = themeId;
+    }
+
+    public String getNomTheme() {
+        return nomTheme;
+    }
+
+    public void setNomTheme(String nomTheme) {
+        this.nomTheme = nomTheme;
     }
 
     public String getColor() {
@@ -25,19 +42,11 @@ public class Theme {
         this.color = color;
     }
 
-    public List<Fiche> getFiches() {
-        return fiches;
+    public List<Fiche> getListFiches() {
+        return listFiches;
     }
 
-    public void setFiches(List<Fiche> fiches) {
-        this.fiches = fiches;
+    public void setListFiches(List<Fiche> listFiches) {
+        this.listFiches = listFiches;
     }
-
-    /*public List<Frise> getFrises() {
-        return frises;
-    }
-
-    public void setFrises(List<Frise> frises) {
-        this.frises = frises;
-    }*/
 }

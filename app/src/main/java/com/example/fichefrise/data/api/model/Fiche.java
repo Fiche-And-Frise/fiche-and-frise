@@ -10,9 +10,6 @@ public class Fiche {
     @SerializedName("name")
     private String nomFiche;
 
-    @SerializedName("theme")
-    private String themeFiche;
-
     @SerializedName("recto")
     private String recto;
 
@@ -33,14 +30,6 @@ public class Fiche {
 
     public void setNomFiche(String nomFiche) {
         this.nomFiche = nomFiche;
-    }
-
-    public String getThemeFiche() {
-        return themeFiche;
-    }
-
-    public void setThemeFiche(String themeFiche) {
-        this.themeFiche = themeFiche;
     }
 
     public String getRecto() {
