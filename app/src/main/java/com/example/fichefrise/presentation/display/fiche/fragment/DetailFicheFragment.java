@@ -4,14 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.fichefrise.R;
 
-public class FicheFragment extends Fragment {
+public class DetailFicheFragment extends Fragment {
 
     private View view;
     public String name = "";
@@ -20,7 +19,7 @@ public class FicheFragment extends Fragment {
         this.name = name;
     }
 
-    public FicheFragment(int type){
+    public DetailFicheFragment(int type){
         if(type == 0){
             setName("RECTO");
         }else{
@@ -28,14 +27,14 @@ public class FicheFragment extends Fragment {
         }
     }
 
-    public static FicheFragment newInstance(int type) {
-        return new FicheFragment(type);
+    public static DetailFicheFragment newInstance(int type) {
+        return new DetailFicheFragment(type);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_fiche, container, false);
+        view = inflater.inflate(R.layout.fragment_detail_fiche, container, false);
 
         return view;
     }

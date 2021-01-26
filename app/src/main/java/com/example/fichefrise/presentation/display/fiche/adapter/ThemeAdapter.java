@@ -59,14 +59,14 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ThemeViewHol
 
         public void bind(Theme item){
             this.theme = item;
-            this.themeNameTextView.setText(theme.getName());
+            this.themeNameTextView.setText(theme.getNomTheme());
             ficheRecyclerView = v.findViewById(R.id.fiches_recyclerview);
             layoutManager = new LinearLayoutManager(v.getContext());
             ficheAdapter = new FicheAdapter();
 
             FicheToViewModelMapper mapper = new FicheToViewModelMapper();
 
-            ficheAdapter.bindFicheViewModelList(mapper.map(theme.getFiches()));
+            ficheAdapter.bindFicheViewModelList(mapper.map(theme.getListFiches()));
             ficheRecyclerView.setAdapter(this.ficheAdapter);
             ficheRecyclerView.setLayoutManager(this.layoutManager);
         }

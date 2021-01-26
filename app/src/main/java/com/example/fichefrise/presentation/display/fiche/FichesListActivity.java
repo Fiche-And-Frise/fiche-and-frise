@@ -1,5 +1,6 @@
 package com.example.fichefrise.presentation.display.fiche;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.fichefrise.data.api.model.Fiche;
@@ -52,14 +53,16 @@ public class FichesListActivity extends AppCompatActivity {
 
         setupRecyclerView();
 
-        /*FloatingActionButton fab = findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fabListFiche);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
+                Intent i = new Intent(FichesListActivity.this, CreateFicheActivity.class);
+                startActivity(i);
             }
-        });*/
+        });
     }
 
     private void setupRecyclerView() {
@@ -150,16 +153,16 @@ public class FichesListActivity extends AppCompatActivity {
         fiche3.setNomFiche("La première guerre mondiale");
 
         Theme t1 = new Theme(), t2 = new Theme(), t3 = new Theme();
-        t1.setName("Première Guerre Mondiale");
-        t2.setName("Seconde Guerre Mondiale");
-        t3.setName("Guerre froide");
+        t1.setNomTheme("Première Guerre Mondiale");
+        t2.setNomTheme("Seconde Guerre Mondiale");
+        t3.setNomTheme("Guerre froide");
         List<Fiche> fichesList = new ArrayList<>();
         fichesList.add(fiche1);
         fichesList.add(fiche2);
         fichesList.add(fiche3);
-        t1.setFiches(fichesList);
-        t2.setFiches(fichesList);
-        t3.setFiches(fichesList);
+        t1.setListFiches(fichesList);
+        t2.setListFiches(fichesList);
+        t3.setListFiches(fichesList);
 
         this.allThemes.add(t1);
         this.allThemes.add(t2);
