@@ -18,6 +18,9 @@ public class Theme {
     @SerializedName("listFiches")
     private List<Fiche> listFiches;
 
+    @SerializedName("listFrises")
+    private List<Frise> listFrises;
+
     public int getThemeId() {
         return themeId;
     }
@@ -48,5 +51,13 @@ public class Theme {
 
     public void setListFiches(List<Fiche> listFiches) {
         this.listFiches = listFiches;
+    }
+
+    public List<Frise> getListFrises() {
+        return listFrises;
+    }
+
+    public void setListFrises(List<Frise> listFrises) {
+        this.listFrises = listFrises;
     }
 }
