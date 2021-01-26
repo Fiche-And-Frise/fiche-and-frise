@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.fichefrise.R;
 
-public class FicheFragment extends Fragment {
+public class CreateFicheFragment extends Fragment {
 
     private View view;
     public String name = "";
@@ -19,7 +19,7 @@ public class FicheFragment extends Fragment {
         this.name = name;
     }
 
-    public FicheFragment(int type){
+    public CreateFicheFragment(int type){
         if(type == 0){
             setName("RECTO");
         }else{
@@ -27,14 +27,15 @@ public class FicheFragment extends Fragment {
         }
     }
 
-    public static FicheFragment newInstance(int type) {
-        return new FicheFragment(type);
+    public static CreateFicheFragment newInstance(int type) {
+        return new CreateFicheFragment(type);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_fiche, container, false);
+        view = inflater.inflate(R.layout.fragment_detail_fiche, container, false);
+
         return view;
     }
 
