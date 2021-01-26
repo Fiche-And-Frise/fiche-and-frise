@@ -22,5 +22,5 @@ public interface FriseDisplayService {
     Single<List<Evenement>> getAllEvenements(@Path("id") int friseId);
 
     @GET("frises/{id}/evenements/{idEvent}")
-    Single<Frise> getEvenementById(@Path("id") int friseId, @Path("idEvent") int evenementId);
+    Single<Evenement> getEvenementById(@Path("id") int friseId, @Path("idEvent") int evenementId);
 }

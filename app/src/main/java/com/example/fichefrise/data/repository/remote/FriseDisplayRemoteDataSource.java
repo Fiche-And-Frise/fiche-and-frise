@@ -28,7 +28,7 @@ public class FriseDisplayRemoteDataSource {
         return this.friseDisplayService.getAllEvenements(friseId);
     }
 
-    public Single<Frise> getEvenementById(int friseId, int evenementId){
+    public Single<Evenement> getEvenementById(int friseId, int evenementId){
         return this.friseDisplayService.getEvenementById(friseId, evenementId);
     }
 }
