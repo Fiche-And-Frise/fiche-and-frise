@@ -5,19 +5,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.display.fiche.fragment.FicheFragment"
+    tools:context=".presentation.display.fiche.fragment.DetailFicheFragment"
     android:gravity="top">
 
 
-    <EditText
-        android:id="@+id/editTextFragment"
+    <TextView
+        android:id="@+id/textViewFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:background="@color/gray"
+        android:background="@drawable/background_text_view"
         android:gravity="start|top"
         android:inputType="textMultiLine"
-        android:lines="15"
+        android:lines="18"
         android:text="Test"
         />
 
