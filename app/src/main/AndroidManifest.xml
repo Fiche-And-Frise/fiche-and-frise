@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".presentation.display.fiche.CreateFicheActivity" />
         <activity android:name=".presentation.display.fiche.DetailFicheActivity" />
         <activity android:name=".presentation.display.fiche.FichesListActivity" />
     </application>
