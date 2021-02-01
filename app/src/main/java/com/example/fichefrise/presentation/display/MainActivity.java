@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         ficheButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, DetailFicheActivity.class);
+                Intent i = new Intent(MainActivity.this, FichesListActivity.class);
                 startActivity(i);
             }
         });
@@ -50,8 +50,7 @@ public class MainActivity extends AppCompatActivity {
         friseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(MainActivity.this, FichesListActivity.class);
-                startActivity(i);
+
             }
         });
 

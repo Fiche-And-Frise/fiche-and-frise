@@ -21,7 +21,8 @@
         </activity>
         <activity android:name=".presentation.display.fiche.CreateFicheActivity" />
         <activity android:name=".presentation.display.fiche.DetailFicheActivity" />
-        <activity android:name=".presentation.display.fiche.FichesListActivity" />
+        <activity android:name=".presentation.display.fiche.FichesListActivity"
+            android:parentActivityName="com.example.fichefrise.presentation.display.MainActivity"/>
     </application>
 
 </manifest>

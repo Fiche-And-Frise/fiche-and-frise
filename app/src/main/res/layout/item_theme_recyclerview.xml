@@ -11,7 +11,8 @@
         android:hint="Exemple de theme"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:layout_marginTop="15dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fiches_recyclerview"

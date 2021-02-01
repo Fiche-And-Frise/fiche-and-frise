@@ -24,6 +24,7 @@ import com.example.fichefrise.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class FichesListActivity extends AppCompatActivity {
 
@@ -43,9 +44,9 @@ public class FichesListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fiches_list);
-        toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbarFichesList);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Liste des fiches");
 
         createFichesWithThemes();
@@ -168,5 +169,10 @@ public class FichesListActivity extends AppCompatActivity {
         this.allThemes.add(t2);
         this.allThemes.add(t3);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }
