@@ -1,31 +1,40 @@
 package com.example.fichefrise.presentation.display.login;
 
-import androidx.annotation.Nullable;
+import com.google.gson.annotations.SerializedName;
+
+import java.security.Timestamp;
 
 /**
  * Authentication result : success (user details) or error message.
  */
-class LoginResult {
-    @Nullable
-    private LoggedInUserView success;
-    @Nullable
-    private Integer error;
+public class LoginResult {
+    @SerializedName("message")
+    private String message;
+    @SerializedName("username")
+    private String username;
 
-    LoginResult(@Nullable Integer error) {
-        this.error = error;
+    public String getMessage() {
+        return message;
     }
 
-    LoginResult(@Nullable LoggedInUserView success) {
-        this.success = success;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    @Nullable
-    LoggedInUserView getSuccess() {
-        return success;
+    public String getUsername() {
+        return username;
     }
 
-    @Nullable
-    Integer getError() {
-        return error;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+
+    @Override
+    public String toString() {
+        return "LoginResult{" +
+                "message='" + message + '\'' +
+                ", username='" + username + '\'' +
+                '}';
     }
 }

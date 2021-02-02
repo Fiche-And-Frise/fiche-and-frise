@@ -62,24 +62,21 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        loginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
+        loginViewModel.getLoginResult().observe(this, new Observer<Boolean>() {
             @Override
-            public void onChanged(@Nullable LoginResult loginResult) {
+            public void onChanged(@Nullable Boolean loginResult) {
                 if (loginResult == null) {
                     return;
                 }
                 loadingProgressBar.setVisibility(View.GONE);
-                if (loginResult.getError() != null) {
-                    showLoginFailed(loginResult.getError());
-                }
-                if (loginResult.getSuccess() != null) {
-                    //updateUiWithUser(loginResult.getSuccess());
+                if (loginResult) {
                     Intent i = new Intent(ctx, MainActivity.class);
                     startActivity(i);
                     finish();
-                }
-                setResult(Activity.RESULT_OK);
 
+                }
+
+                setResult(Activity.RESULT_OK);
                 //Complete and destroy login activity once successful
 
             }
@@ -109,11 +106,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    if(loginViewModel.login(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString())){
-                        Log.i("ON EDITOR ACTION", "Utilisateur enregistré");
-                        SaveSharedPreference.setUserName(ctx, usernameEditText.getText().toString());
-                    }
+                    loginViewModel.login(usernameEditText.getText().toString(),
+                            passwordEditText.getText().toString());
                 }
                 return false;
             }
@@ -123,11 +117,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                if(loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString())){
-                    Log.i("ON EDITOR ACTION", "Utilisateur enregistré");
-                    SaveSharedPreference.setUserName(ctx, usernameEditText.getText().toString());
-                }
+                loginViewModel.login(usernameEditText.getText().toString(),
+                        passwordEditText.getText().toString());
             }
         });
     }

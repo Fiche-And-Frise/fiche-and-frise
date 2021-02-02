@@ -2,7 +2,10 @@ package com.example.fichefrise.data.di;
 
 import android.content.Context;
 
+import com.example.fichefrise.data.LoginDataSource;
+import com.example.fichefrise.data.LoginRepository;
 import com.example.fichefrise.data.api.FicheDisplayService;
+import com.example.fichefrise.data.api.LoginService;
 import com.google.gson.Gson;
 
 import okhttp3.OkHttpClient;
@@ -18,6 +21,8 @@ public class FakeDependencyInjection {
     private static Context applicationContext;
 
     private static FicheDisplayService ficheDisplayService;
+    private static LoginService loginService;
+    private static LoginRepository loginRepository;
 
 
     public static Retrofit getRetrofit() {
@@ -49,10 +54,28 @@ public class FakeDependencyInjection {
         applicationContext = context;
     }
 
+    public static Context getApplicationContext(){
+        return applicationContext;
+    }
+
     public static FicheDisplayService ficheDisplayService() {
         if (ficheDisplayService == null) {
             ficheDisplayService = getRetrofit().create(FicheDisplayService.class);
         }
         return ficheDisplayService;
+    }
+
+    public static LoginService getLoginService() {
+        if (loginService == null) {
+            loginService = getRetrofit().create(LoginService.class);
+        }
+        return loginService;
+    }
+
+    public static LoginRepository getLoginRepository(){
+        if(loginRepository == null){
+            loginRepository = new LoginRepository(new LoginDataSource(getLoginService()));
+        }
+        return loginRepository;
     }
 }

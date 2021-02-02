@@ -1,44 +1,83 @@
 package com.example.fichefrise.presentation.display.login;
 
+import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.fichefrise.data.LoginRepository;
 import com.example.fichefrise.data.Result;
+import com.example.fichefrise.data.SaveSharedPreference;
 import com.example.fichefrise.data.api.model.LoggedInUser;
 import com.example.fichefrise.R;
+import com.example.fichefrise.data.di.FakeDependencyInjection;
+
+import java.util.List;
+
+import io.reactivex.MaybeObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableMaybeObserver;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
 
 public class LoginViewModel extends ViewModel {
 
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
-    private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
+    private MutableLiveData<Boolean> loginResult = new MutableLiveData<>();
     private LoginRepository loginRepository;
+    private CompositeDisposable compositeDisposable;
 
     LoginViewModel(LoginRepository loginRepository) {
         this.loginRepository = loginRepository;
+        this.compositeDisposable = new CompositeDisposable();
     }
 
     LiveData<LoginFormState> getLoginFormState() {
         return loginFormState;
     }
 
-    LiveData<LoginResult> getLoginResult() {
+    LiveData<Boolean> getLoginResult() {
         return loginResult;
     }
 
-    public boolean login(String username, String password) {
+    public void login(String username, String password) {
         // can be launched in a separate asynchronous job
-        Result<LoggedInUser> result = loginRepository.login(username, password);
+        compositeDisposable.clear();
+        compositeDisposable.add(loginRepository.login(username, password)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableMaybeObserver<LoginResult>(){
 
-        if (result instanceof Result.Success) {
-            LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
-            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
-            return true;
-        } else {
-            loginResult.setValue(new LoginResult(R.string.login_failed));
-            return false;
-        }
+                    @Override
+                    public void onSuccess(@NonNull LoginResult result) {
+                        Log.i("ON SUCCESS", result.toString());
+                        SaveSharedPreference.setUserName(FakeDependencyInjection.getApplicationContext(), username);
+                        SaveSharedPreference.setPassword(FakeDependencyInjection.getApplicationContext(), password);
+                        loginResult.setValue(true);
+                        Toast.makeText(FakeDependencyInjection.getApplicationContext(), "Bienvenue !", Toast.LENGTH_SHORT)
+                                .show();
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Log.i("ON ERROR", e.toString());
+                        loginResult.setValue(false);
+                        Toast.makeText(FakeDependencyInjection.getApplicationContext(), "Mauvais identifiants", Toast.LENGTH_LONG)
+                                .show();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.i("ON COMPLETE", "Completed");
+                    }
+                }));
     }
 
     public void loginDataChanged(String username, String password) {
@@ -61,6 +100,6 @@ public class LoginViewModel extends ViewModel {
 
     // A placeholder password validation check
     private boolean isPasswordValid(String password) {
-        return password != null && password.trim().length() >= 5;
+        return password != null && password.trim().length() >= 3;
     }
 }

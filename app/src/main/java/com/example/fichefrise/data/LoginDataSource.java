@@ -1,35 +1,45 @@
 package com.example.fichefrise.data;
 
+import android.content.Context;
 import android.util.Log;
 
+import com.example.fichefrise.data.api.LoginService;
 import com.example.fichefrise.data.api.model.LoggedInUser;
+import com.example.fichefrise.data.di.FakeDependencyInjection;
+import com.example.fichefrise.presentation.display.login.LoginResult;
 
 import java.io.IOException;
+import java.util.Objects;
+
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Class that handles authentication w/ login credentials and retrieves user information.
  */
 public class LoginDataSource {
 
-    public Result<LoggedInUser> login(String username, String password) {
+    private LoginService loginService;
+    private Boolean result = false;
+    private Context ctx = FakeDependencyInjection.getApplicationContext();
 
-        try {
-            // TODO: handle loggedInUser authentication
-            if(username.equals("maxime") && password.equals("loool")){
-                Log.i("LOGIN DATASOURCE", "Utilisateur validé");
-                LoggedInUser fakeUser =
-                        new LoggedInUser(
-                                java.util.UUID.randomUUID().toString(),
-                                "Maxime Hilberer");
-                return new Result.Success<>(fakeUser);
-            }
-            return new Result.Error(new IOException("Error logging in"));
-        } catch (Exception e) {
-            return new Result.Error(new IOException("Error logging in", e));
-        }
+    public LoginDataSource(LoginService loginService){
+        this.loginService = loginService;
     }
 
-    public void logout() {
+    public Maybe<LoginResult> login(String username, String password) {
+        // TODO: handle loggedInUser authentication
+        Log.i("LOG IN", "Sending request");
+        return this.loginService.login(username, password);
+    }
+
+    public Completable logout(){
         // TODO: revoke authentication
+        Log.i("LOG OUT", "Sending request");
+        return this.loginService.logout();
     }
 }
