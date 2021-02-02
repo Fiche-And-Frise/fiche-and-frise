@@ -19,6 +19,7 @@
         android:inputType="textMultiLine"
         android:lines="15"
         android:text="Test"
+        android:padding="15dp"
         />
 
 </LinearLayout>

@@ -2,6 +2,8 @@ package com.example.fichefrise.presentation.display.fiche;
 
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -59,5 +61,19 @@ public class DetailFicheActivity extends AppCompatActivity {
                 return fragmentVerso.name;
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        // back button
+        if (id == android.R.id.home) {
+            Log.i("Item selected", "On est passé là !");
+            finish();
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

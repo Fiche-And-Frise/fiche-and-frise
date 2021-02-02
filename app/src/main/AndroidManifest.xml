@@ -19,10 +19,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.display.fiche.CreateFicheActivity" />
+        <activity android:name=".presentation.display.fiche.CreateFicheActivity"
+            android:parentActivityName="com.example.fichefrise.presentation.display.fiche.FichesListActivity"
+            />
         <activity android:name=".presentation.display.fiche.DetailFicheActivity" />
         <activity android:name=".presentation.display.fiche.FichesListActivity"
-            android:parentActivityName="com.example.fichefrise.presentation.display.MainActivity"/>
+            android:parentActivityName="com.example.fichefrise.presentation.display.MainActivity"
+            />
     </application>
 
 </manifest>
