@@ -11,11 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fichefrise.R;
 
+import java.util.Collections;
 import java.util.List;
 
 public class FicheAdapter extends RecyclerView.Adapter<FicheAdapter.FicheViewHolder> {
 
-    private List<FicheViewItem> viewItemList;
+    private List<FicheViewItem> viewItemList = Collections.emptyList();
 
     @NonNull
     @Override

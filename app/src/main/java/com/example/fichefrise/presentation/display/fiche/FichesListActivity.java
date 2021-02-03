@@ -5,9 +5,12 @@ import android.os.Bundle;
 
 import com.example.fichefrise.data.api.model.Fiche;
 import com.example.fichefrise.data.api.model.Theme;
+import com.example.fichefrise.data.di.FakeDependencyInjection;
 import com.example.fichefrise.presentation.display.fiche.adapter.FicheAdapter;
 import com.example.fichefrise.presentation.display.fiche.adapter.FicheViewItem;
 import com.example.fichefrise.presentation.display.fiche.adapter.ThemeAdapter;
+import com.example.fichefrise.presentation.viewmodel.FicheViewModel;
+import com.example.fichefrise.presentation.viewmodel.ViewModelFactory;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -15,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,6 +39,7 @@ public class FichesListActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private ThemeAdapter themeAdapter;
     private FicheAdapter ficheAdapter;
+    private FicheViewModel ficheViewModel;
     private List<FicheViewItem> fichesListStatic = new ArrayList<>();
     private List<FicheViewItem> fichesList = new ArrayList<>();
     private List<Theme> allThemes = new ArrayList<>();
@@ -56,6 +61,7 @@ public class FichesListActivity extends AppCompatActivity {
         createFichesWithoutThemes();
 
         setupRecyclerView();
+        registerViewModel();
 
         FloatingActionButton fab = findViewById(R.id.fabListFiche);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -69,16 +75,23 @@ public class FichesListActivity extends AppCompatActivity {
         });
     }
 
+    private void registerViewModel(){
+        Log.i("DANS LE REGISTER", "On est ici !");
+        ficheViewModel = new ViewModelProvider(this, FakeDependencyInjection.getViewModelFactory()).get(FicheViewModel.class);
+        ficheViewModel.getAllFiches();
+        ficheViewModel.getFiches().observe(this, ficheViewItems -> ficheAdapter.bindFicheViewModelList(ficheViewItems));
+    }
+
     private void setupRecyclerView() {
         recyclerView =findViewById(R.id.themes_recyclerview);
 
         layoutManager = new LinearLayoutManager(this);
 
         ficheAdapter = new FicheAdapter();
-        ficheAdapter.bindFicheViewModelList(fichesListStatic);
+        //ficheAdapter.bindFicheViewModelList(fichesListStatic);
 
         themeAdapter = new ThemeAdapter();
-        themeAdapter.bindFicheViewModelList(allThemes);
+        //themeAdapter.bindFicheViewModelList(allThemes);
 
         recyclerView.setAdapter(this.themeAdapter);
         recyclerView.setLayoutManager(this.layoutManager);
@@ -89,13 +102,13 @@ public class FichesListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(sort == 0){
-                    btn_alpha_theme_sort.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_sort_by_alpha_24));
-                    recyclerView.setAdapter(themeAdapter);
+                    btn_alpha_theme_sort.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_theme_24));
+                    recyclerView.setAdapter(ficheAdapter);
                     recyclerView.setLayoutManager(layoutManager);
                     sort = 1;
                 }else{
-                    btn_alpha_theme_sort.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_theme_24));
-                    recyclerView.setAdapter(ficheAdapter);
+                    btn_alpha_theme_sort.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_baseline_sort_by_alpha_24));
+                    recyclerView.setAdapter(themeAdapter);
                     recyclerView.setLayoutManager(layoutManager);
                     sort = 0;
                 }

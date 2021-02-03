@@ -6,6 +6,10 @@ import com.example.fichefrise.data.LoginDataSource;
 import com.example.fichefrise.data.LoginRepository;
 import com.example.fichefrise.data.api.FicheDisplayService;
 import com.example.fichefrise.data.api.LoginService;
+import com.example.fichefrise.data.repository.FicheDisplayDataRepository;
+import com.example.fichefrise.data.repository.FicheDisplayRepository;
+import com.example.fichefrise.data.repository.remote.FicheDisplayRemoteDataSource;
+import com.example.fichefrise.presentation.viewmodel.ViewModelFactory;
 import com.google.gson.Gson;
 
 import okhttp3.OkHttpClient;
@@ -20,9 +24,11 @@ public class FakeDependencyInjection {
     private static Gson gson;
     private static Context applicationContext;
 
+    private static FicheDisplayRepository ficheDisplayRepository;
     private static FicheDisplayService ficheDisplayService;
     private static LoginService loginService;
     private static LoginRepository loginRepository;
+    private static ViewModelFactory viewModelFactory;
 
 
     public static Retrofit getRetrofit() {
@@ -30,6 +36,8 @@ public class FakeDependencyInjection {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             OkHttpClient client = new OkHttpClient.Builder()
+                    .addInterceptor(new ReceivedCookiesInterceptor(getApplicationContext()))
+                    .addInterceptor(new AddCookiesInterceptor(getApplicationContext()))
                     .addInterceptor(interceptor)
                     .build();
 
@@ -58,7 +66,16 @@ public class FakeDependencyInjection {
         return applicationContext;
     }
 
-    public static FicheDisplayService ficheDisplayService() {
+    public static FicheDisplayRepository getficheDisplayRepository() {
+        if (ficheDisplayRepository == null) {
+            ficheDisplayRepository = new FicheDisplayDataRepository(
+                    new FicheDisplayRemoteDataSource(getFicheDisplayService())
+            );
+        }
+        return ficheDisplayRepository;
+    }
+
+    public static FicheDisplayService getFicheDisplayService() {
         if (ficheDisplayService == null) {
             ficheDisplayService = getRetrofit().create(FicheDisplayService.class);
         }
@@ -77,5 +94,12 @@ public class FakeDependencyInjection {
             loginRepository = new LoginRepository(new LoginDataSource(getLoginService()));
         }
         return loginRepository;
+    }
+
+    public static ViewModelFactory getViewModelFactory() {
+        if (viewModelFactory == null) {
+            viewModelFactory = new ViewModelFactory(getficheDisplayRepository());
+        }
+        return viewModelFactory;
     }
 }

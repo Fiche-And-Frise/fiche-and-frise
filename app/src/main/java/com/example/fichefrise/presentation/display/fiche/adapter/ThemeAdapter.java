@@ -14,10 +14,11 @@ import com.example.fichefrise.data.api.model.Theme;
 import com.example.fichefrise.presentation.display.fiche.mapper.FicheToViewModelMapper;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ThemeViewHolder>{
-    private List<Theme> themeList;
+    private List<Theme> themeList = Collections.emptyList();
 
     @NonNull
     @Override
