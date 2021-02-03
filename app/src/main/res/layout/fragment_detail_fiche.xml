@@ -16,9 +16,9 @@
         android:layout_margin="20dp"
         android:background="@drawable/background_text_view"
         android:gravity="start|top"
-        android:inputType="textMultiLine"
-        android:lines="18"
-        android:text="Test"
+        android:lines="12"
+        android:hint="Test"
+        android:padding="15dp"
         />
 
 </LinearLayout>

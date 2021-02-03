@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fichefrise.R;
+import com.example.fichefrise.data.api.model.Fiche;
 import com.example.fichefrise.data.api.model.Theme;
 import com.example.fichefrise.presentation.display.fiche.mapper.FicheToViewModelMapper;
 
@@ -19,14 +20,19 @@ import java.util.List;
 
 public class FicheAdapter extends RecyclerView.Adapter<FicheAdapter.FicheViewHolder> {
 
-    private List<FicheViewItem> viewItemList = Collections.emptyList();
+    private List<Fiche> viewItemList = Collections.emptyList();
+    private FicheActionInterface ficheActionInterface;
+
+    public FicheAdapter(FicheActionInterface ficheActionInterface){
+        this.ficheActionInterface = ficheActionInterface;
+    }
 
     @NonNull
     @Override
     public FicheViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_fiche_recyclerview, parent, false);
-        return new FicheViewHolder(v);
+        return new FicheViewHolder(v, this.ficheActionInterface);
     }
 
     @Override
@@ -44,7 +50,10 @@ public class FicheAdapter extends RecyclerView.Adapter<FicheAdapter.FicheViewHol
         Log.i("DANS LE BIND", "all themes : " + allThemes.size());
         FicheToViewModelMapper mapper = new FicheToViewModelMapper();
         for(Theme t : allThemes){
-            this.viewItemList.addAll(mapper.map(t.getListFiches()));
+            for(Fiche f : t.getListFiches()){
+                f.setThemeName(t.getNomTheme());
+                this.viewItemList.add(f);
+            }
         }
         notifyDataSetChanged();
     }
@@ -53,16 +62,24 @@ public class FicheAdapter extends RecyclerView.Adapter<FicheAdapter.FicheViewHol
 
         private TextView ficheNameTextView;
         private View v;
-        private FicheViewItem ficheViewItem;
+        private Fiche ficheViewItem;
+        private FicheActionInterface ficheActionInterface;
 
-        public FicheViewHolder(@NonNull View itemView) {
+        public FicheViewHolder(@NonNull View itemView, final FicheActionInterface ficheActionInterface) {
             super(itemView);
             this.v = itemView;
+            this.ficheActionInterface = ficheActionInterface;
             this.ficheNameTextView =itemView.findViewById(R.id.ficheNameTextView);
+            this.ficheNameTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ficheActionInterface.onFicheClicked(ficheViewItem);
+                }
+            });
         }
 
-        public void bind(FicheViewItem item){
-            this.ficheViewItem = item;
+        public void bind(Fiche fiche){
+            this.ficheViewItem = fiche;
             this.ficheNameTextView.setText(ficheViewItem.getNomFiche());
         }
     }

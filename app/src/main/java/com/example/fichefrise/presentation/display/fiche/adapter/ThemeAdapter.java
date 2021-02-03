@@ -20,13 +20,18 @@ import java.util.List;
 
 public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ThemeViewHolder>{
     private List<Theme> themeList = Collections.emptyList();
+    private FicheActionInterface ficheActionInterface;
+
+    public ThemeAdapter(FicheActionInterface ficheActionInterface){
+        this.ficheActionInterface = ficheActionInterface;
+    }
 
     @NonNull
     @Override
     public ThemeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_theme_recyclerview, parent, false);
-        return new ThemeViewHolder(v);
+        return new ThemeViewHolder(v, this.ficheActionInterface);
     }
 
     @Override
@@ -52,10 +57,12 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ThemeViewHol
         private FicheAdapter ficheAdapter;
         private View v;
         private Theme theme;
+        private FicheActionInterface ficheActionInterface;
 
-        public ThemeViewHolder(@NonNull View itemView) {
+        public ThemeViewHolder(@NonNull View itemView, FicheActionInterface ficheActionInterface) {
             super(itemView);
             this.v = itemView;
+            this.ficheActionInterface = ficheActionInterface;
             this.themeNameTextView =itemView.findViewById(R.id.theme_textView);
         }
 
@@ -64,7 +71,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ThemeViewHol
             this.themeNameTextView.setText(theme.getNomTheme());
             ficheRecyclerView = v.findViewById(R.id.fiches_recyclerview);
             layoutManager = new LinearLayoutManager(v.getContext());
-            ficheAdapter = new FicheAdapter();
+            ficheAdapter = new FicheAdapter(this.ficheActionInterface);
 
             FicheToViewModelMapper mapper = new FicheToViewModelMapper();
 

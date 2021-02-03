@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -14,12 +15,14 @@ public class DetailFicheFragment extends Fragment {
 
     private View view;
     public String name = "";
+    private String content;
 
     public void setName(String name) {
         this.name = name;
     }
 
-    public DetailFicheFragment(int type){
+    public DetailFicheFragment(int type, String content){
+        this.content = content;
         if(type == 0){
             setName("RECTO");
         }else{
@@ -27,15 +30,16 @@ public class DetailFicheFragment extends Fragment {
         }
     }
 
-    public static DetailFicheFragment newInstance(int type) {
-        return new DetailFicheFragment(type);
+    public static DetailFicheFragment newInstance(int type, String content) {
+        return new DetailFicheFragment(type, content);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_detail_fiche, container, false);
-
+        TextView rectoTextView = view.findViewById(R.id.textViewFragment);
+        rectoTextView.setText(content);
         return view;
     }
 

@@ -1,8 +1,12 @@
 package com.example.fichefrise.data.api.model;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 
-public class Fiche {
+import java.io.Serializable;
+
+public class Fiche implements Serializable {
 
     @SerializedName("id")
     private int ficheId;
@@ -15,6 +19,8 @@ public class Fiche {
 
     @SerializedName("verso")
     private String verso;
+
+    private String themeName;
 
     public int getFicheId() {
         return ficheId;
@@ -46,5 +52,21 @@ public class Fiche {
 
     public void setVerso(String verso) {
         this.verso = verso;
+    }
+
+    public String getThemeName() {
+        return themeName;
+    }
+
+    public void setThemeName(String themeName) {
+        this.themeName = themeName;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        String response = "Id : " + this.getFicheId() +
+                "\nNom : " + this.getNomFiche();
+        return response;
     }
 }

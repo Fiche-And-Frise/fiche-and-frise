@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.example.fichefrise.data.api.model.Fiche;
 import com.example.fichefrise.data.api.model.Theme;
 import com.example.fichefrise.data.di.FakeDependencyInjection;
+import com.example.fichefrise.presentation.display.fiche.adapter.FicheActionInterface;
 import com.example.fichefrise.presentation.display.fiche.adapter.FicheAdapter;
 import com.example.fichefrise.presentation.display.fiche.adapter.FicheViewItem;
 import com.example.fichefrise.presentation.display.fiche.adapter.ThemeAdapter;
@@ -33,7 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class FichesListActivity extends AppCompatActivity {
+public class FichesListActivity extends AppCompatActivity implements FicheActionInterface {
 
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
@@ -91,10 +92,10 @@ public class FichesListActivity extends AppCompatActivity {
 
         layoutManager = new LinearLayoutManager(this);
 
-        ficheAdapter = new FicheAdapter();
+        ficheAdapter = new FicheAdapter(this);
         //ficheAdapter.bindFicheViewModelList(fichesListStatic);
 
-        themeAdapter = new ThemeAdapter();
+        themeAdapter = new ThemeAdapter(this);
         //themeAdapter.bindFicheViewModelList(allThemes);
 
         recyclerView.setAdapter(this.themeAdapter);
@@ -208,5 +209,13 @@ public class FichesListActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onFicheClicked(Fiche fiche) {
+        Intent i = new Intent(this, DetailFicheActivity.class);
+        Log.i("FICHE CLICKED", "Fiche clicked : " + fiche.toString());
+        i.putExtra("fiche", fiche);
+        startActivity(i);
     }
 }

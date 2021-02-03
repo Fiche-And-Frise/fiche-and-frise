@@ -15,5 +15,6 @@
         <!-- Customize your theme here. -->
         <item name="android:windowFullscreen">true</item>
         <item name="fontFamily">@font/amaranth</item>
+        <item name="android:textSize">20sp</item>
     </style>
 </resources>

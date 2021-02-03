@@ -18,5 +18,6 @@
     <string name="login_success">"Connexion réussie"</string>
     <string name="fiche">Fiches</string>
     <string name="frise">Frises</string>
+    <string name="update_fiche">update_fiche</string>
 
 </resources>
