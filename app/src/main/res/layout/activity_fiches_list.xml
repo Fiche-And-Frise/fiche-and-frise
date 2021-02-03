@@ -47,12 +47,15 @@
         android:id="@+id/search_fiche_view"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_margin="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="15dp"
         android:clickable="true"
+        android:focusable="false"
         app:iconifiedByDefault="false"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appBar"
-        android:focusable="false" />
+        app:layout_constraintTop_toBottomOf="@id/appBar" />
 
 
 
@@ -63,7 +66,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_fiche_view"
-        android:layout_marginStart="20dp"/>
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabListFiche"
