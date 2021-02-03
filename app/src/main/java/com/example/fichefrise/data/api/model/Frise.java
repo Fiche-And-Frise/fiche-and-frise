@@ -14,7 +14,7 @@ public class Frise {
     @SerializedName("dateDebut")
     private int dateDebutFrise;
 
-    @SerializedName("dateDebut")
+    @SerializedName("dateFin")
     private int dateFinFrise;
 
     @SerializedName("evenements")

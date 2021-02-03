@@ -1,6 +1,5 @@
 package com.example.fichefrise.data.repository;
 
-import com.example.fichefrise.data.api.ThemeDisplayService;
 import com.example.fichefrise.data.api.model.Theme;
 import com.example.fichefrise.data.repository.remote.ThemeDisplayRemoteDataSource;
 
@@ -8,7 +7,7 @@ import java.util.List;
 
 import io.reactivex.Single;
 
-public class ThemeDisplayDataRepository implements ThemeDisplayService {
+public class ThemeDisplayDataRepository implements ThemeDisplayRepository {
 
     private ThemeDisplayRemoteDataSource themeDisplayRemoteDataSource;
 

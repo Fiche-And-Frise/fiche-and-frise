@@ -6,9 +6,13 @@ import com.example.fichefrise.data.LoginDataSource;
 import com.example.fichefrise.data.LoginRepository;
 import com.example.fichefrise.data.api.FicheDisplayService;
 import com.example.fichefrise.data.api.LoginService;
+import com.example.fichefrise.data.api.ThemeDisplayService;
 import com.example.fichefrise.data.repository.FicheDisplayDataRepository;
 import com.example.fichefrise.data.repository.FicheDisplayRepository;
+import com.example.fichefrise.data.repository.ThemeDisplayDataRepository;
+import com.example.fichefrise.data.repository.ThemeDisplayRepository;
 import com.example.fichefrise.data.repository.remote.FicheDisplayRemoteDataSource;
+import com.example.fichefrise.data.repository.remote.ThemeDisplayRemoteDataSource;
 import com.example.fichefrise.presentation.viewmodel.ViewModelFactory;
 import com.google.gson.Gson;
 
@@ -24,6 +28,8 @@ public class FakeDependencyInjection {
     private static Gson gson;
     private static Context applicationContext;
 
+    private static ThemeDisplayRepository themeDisplayRepository;
+    private static ThemeDisplayService themeDisplayService;
     private static FicheDisplayRepository ficheDisplayRepository;
     private static FicheDisplayService ficheDisplayService;
     private static LoginService loginService;
@@ -66,7 +72,7 @@ public class FakeDependencyInjection {
         return applicationContext;
     }
 
-    public static FicheDisplayRepository getficheDisplayRepository() {
+    public static FicheDisplayRepository getFicheDisplayRepository() {
         if (ficheDisplayRepository == null) {
             ficheDisplayRepository = new FicheDisplayDataRepository(
                     new FicheDisplayRemoteDataSource(getFicheDisplayService())
@@ -80,6 +86,22 @@ public class FakeDependencyInjection {
             ficheDisplayService = getRetrofit().create(FicheDisplayService.class);
         }
         return ficheDisplayService;
+    }
+
+    public static ThemeDisplayRepository getThemeDisplayRepository() {
+        if (themeDisplayRepository == null) {
+            themeDisplayRepository = new ThemeDisplayDataRepository(
+                    new ThemeDisplayRemoteDataSource(getThemeDisplayService())
+            );
+        }
+        return themeDisplayRepository;
+    }
+
+    public static ThemeDisplayService getThemeDisplayService() {
+        if (themeDisplayService == null) {
+            themeDisplayService = getRetrofit().create(ThemeDisplayService.class);
+        }
+        return themeDisplayService;
     }
 
     public static LoginService getLoginService() {
@@ -98,7 +120,7 @@ public class FakeDependencyInjection {
 
     public static ViewModelFactory getViewModelFactory() {
         if (viewModelFactory == null) {
-            viewModelFactory = new ViewModelFactory(getficheDisplayRepository());
+            viewModelFactory = new ViewModelFactory(getFicheDisplayRepository(), getThemeDisplayRepository());
         }
         return viewModelFactory;
     }

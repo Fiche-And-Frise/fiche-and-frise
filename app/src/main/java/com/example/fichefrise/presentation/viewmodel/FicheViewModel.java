@@ -4,7 +4,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.fichefrise.data.api.model.Fiche;
+import com.example.fichefrise.data.api.model.Theme;
 import com.example.fichefrise.data.repository.FicheDisplayRepository;
+import com.example.fichefrise.data.repository.ThemeDisplayRepository;
 import com.example.fichefrise.presentation.display.fiche.adapter.FicheViewItem;
 import com.example.fichefrise.presentation.display.fiche.mapper.FicheToViewModelMapper;
 
@@ -19,20 +21,24 @@ import io.reactivex.schedulers.Schedulers;
 public class FicheViewModel extends ViewModel{
 
     private FicheDisplayRepository ficheDisplayRepository;
+    private ThemeDisplayRepository themeDisplayRepository;
     private CompositeDisposable compositeDisposable;
     private FicheToViewModelMapper mapper;
 
-    public FicheViewModel(FicheDisplayRepository ficheDisplayRepository){
+    public FicheViewModel(FicheDisplayRepository ficheDisplayRepository, ThemeDisplayRepository themeDisplayRepository){
         this.ficheDisplayRepository = ficheDisplayRepository;
+        this.themeDisplayRepository = themeDisplayRepository;
         this.compositeDisposable = new CompositeDisposable();
         this.mapper = new FicheToViewModelMapper();
     }
 
-    private MutableLiveData<List<FicheViewItem>> fiches = new MutableLiveData<>();
+    //private MutableLiveData<List<FicheViewItem>> fiches = new MutableLiveData<>();
+    private MutableLiveData<List<Theme>> themes = new MutableLiveData<>();
 
-    public MutableLiveData<List<FicheViewItem>> getFiches(){ return this.fiches; };
+    //public MutableLiveData<List<FicheViewItem>> getFiches(){ return this.fiches; };
+    public MutableLiveData<List<Theme>> getThemes(){ return this.themes; };
 
-    public void getAllFiches(){
+    /*public void getAllFiches(){
         compositeDisposable.clear();
         compositeDisposable.add(ficheDisplayRepository.getAllFiches()
                 .subscribeOn(Schedulers.io())
@@ -50,7 +56,7 @@ public class FicheViewModel extends ViewModel{
                     }
 
                 }));
-    }
+    }*/
 
     public void getFicheById(int ficheId){
         compositeDisposable.clear();
@@ -66,6 +72,26 @@ public class FicheViewModel extends ViewModel{
 
                     @Override
                     public void onError(@NonNull Throwable e) {
+                        System.out.println(e.toString());
+                    }
+
+                }));
+    }
+
+    public void getAllThemes(){
+        compositeDisposable.clear();
+        compositeDisposable.add(themeDisplayRepository.getAllThemes()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<List<Theme>>() {
+                    @Override
+                    public void onSuccess(@NonNull List<Theme> allThemes) {
+                        //A compléter
+                        themes.setValue(allThemes);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
                         System.out.println(e.toString());
                     }
 

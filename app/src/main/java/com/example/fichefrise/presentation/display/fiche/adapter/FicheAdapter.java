@@ -10,7 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fichefrise.R;
+import com.example.fichefrise.data.api.model.Theme;
+import com.example.fichefrise.presentation.display.fiche.mapper.FicheToViewModelMapper;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -36,8 +39,13 @@ public class FicheAdapter extends RecyclerView.Adapter<FicheAdapter.FicheViewHol
         return this.viewItemList.size();
     }
 
-    public void bindFicheViewModelList(List<FicheViewItem> fichesListStatic) {
-        this.viewItemList = fichesListStatic;
+    public void bindFicheViewModelList(List<Theme> allThemes) {
+        this.viewItemList = new ArrayList<>();
+        Log.i("DANS LE BIND", "all themes : " + allThemes.size());
+        FicheToViewModelMapper mapper = new FicheToViewModelMapper();
+        for(Theme t : allThemes){
+            this.viewItemList.addAll(mapper.map(t.getListFiches()));
+        }
         notifyDataSetChanged();
     }
 

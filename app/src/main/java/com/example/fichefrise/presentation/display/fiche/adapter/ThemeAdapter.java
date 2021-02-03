@@ -14,6 +14,7 @@ import com.example.fichefrise.data.api.model.Theme;
 import com.example.fichefrise.presentation.display.fiche.mapper.FicheToViewModelMapper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -67,7 +68,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ThemeViewHol
 
             FicheToViewModelMapper mapper = new FicheToViewModelMapper();
 
-            ficheAdapter.bindFicheViewModelList(mapper.map(theme.getListFiches()));
+            ficheAdapter.bindFicheViewModelList(Collections.singletonList(theme));
             ficheRecyclerView.setAdapter(this.ficheAdapter);
             ficheRecyclerView.setLayoutManager(this.layoutManager);
         }

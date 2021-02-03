@@ -78,8 +78,12 @@ public class FichesListActivity extends AppCompatActivity {
     private void registerViewModel(){
         Log.i("DANS LE REGISTER", "On est ici !");
         ficheViewModel = new ViewModelProvider(this, FakeDependencyInjection.getViewModelFactory()).get(FicheViewModel.class);
-        ficheViewModel.getAllFiches();
-        ficheViewModel.getFiches().observe(this, ficheViewItems -> ficheAdapter.bindFicheViewModelList(ficheViewItems));
+        ficheViewModel.getAllThemes();
+        ficheViewModel.getThemes().observe(this, themes -> {
+            themeAdapter.bindFicheViewModelList(themes);
+            ficheAdapter.bindFicheViewModelList(themes);
+            });
+        Log.i("DANS LE REGISTER", "On a terminé !");
     }
 
     private void setupRecyclerView() {

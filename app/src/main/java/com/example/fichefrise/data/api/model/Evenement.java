@@ -13,7 +13,7 @@ public class Evenement {
     @SerializedName("dateDebut")
     private int dateDebutEvenement;
 
-    @SerializedName("dateDebut")
+    @SerializedName("dateFin")
     private int dateFinEvenement;
 
     public int getEvenementId() {
