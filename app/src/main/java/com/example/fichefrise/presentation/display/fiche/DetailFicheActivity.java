@@ -15,12 +15,14 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.fichefrise.R;
 import com.example.fichefrise.data.api.model.Fiche;
+import com.example.fichefrise.data.api.model.Theme;
 import com.example.fichefrise.presentation.display.fiche.fragment.DetailFicheFragment;
 
 public class DetailFicheActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
     private Fiche fiche;
+    private Theme theme;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,7 @@ public class DetailFicheActivity extends AppCompatActivity {
         setContentView(R.layout.fiche_detail);
         Toolbar toolbar = findViewById(R.id.toolbar);
         this.fiche = (Fiche) getIntent().getSerializableExtra("fiche");
+        this.theme = (Theme) getIntent().getSerializableExtra("theme");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Aperçu d'une fiche");
@@ -41,7 +44,7 @@ public class DetailFicheActivity extends AppCompatActivity {
         TextView titleView = findViewById(R.id.fiche_name);
         titleView.setText(fiche.getNomFiche());
         TextView themeView = findViewById(R.id.theme_name);
-        themeView.setText(fiche.getTheme().getNomTheme());
+        themeView.setText(theme.getNomTheme());
     }
 
     private void setupViewPagerAndTabs() {

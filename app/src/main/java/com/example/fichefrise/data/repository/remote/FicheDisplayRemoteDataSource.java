@@ -1,7 +1,11 @@
 package com.example.fichefrise.data.repository.remote;
 
+import android.util.Log;
+
 import com.example.fichefrise.data.api.FicheDisplayService;
 import com.example.fichefrise.data.api.model.Fiche;
+import com.example.fichefrise.data.api.model.NewFicheRequest;
+import com.example.fichefrise.data.api.model.Theme;
 
 import java.util.List;
 
@@ -20,6 +24,11 @@ public class FicheDisplayRemoteDataSource {
 
     public Single<Fiche> getFicheById(int ficheId){
         return this.ficheDisplayService.getFicheById(ficheId);
+    }
+
+    public Single<Fiche> createNewFiche(NewFicheRequest request){
+        Log.i("REMOTE DATA SOURCE", "On est ici");
+        return this.ficheDisplayService.createNewFiche(request);
     }
 
 }

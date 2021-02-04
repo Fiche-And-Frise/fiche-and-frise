@@ -1,6 +1,8 @@
 package com.example.fichefrise.data.repository;
 
 import com.example.fichefrise.data.api.model.Fiche;
+import com.example.fichefrise.data.api.model.NewFicheRequest;
+import com.example.fichefrise.data.api.model.Theme;
 
 import java.util.List;
 
@@ -12,6 +14,8 @@ public interface FicheDisplayRepository {
     Single<List<Fiche>> getAllFiches();
 
     Single<Fiche> getFicheById(int ficheId);
+
+    Single<Fiche> createNewFiche(NewFicheRequest request);
 
     Completable addFiche(int id);
 

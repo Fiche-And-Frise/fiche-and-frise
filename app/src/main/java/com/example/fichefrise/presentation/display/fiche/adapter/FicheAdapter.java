@@ -52,7 +52,7 @@ public class FicheAdapter extends RecyclerView.Adapter<FicheAdapter.FicheViewHol
         FicheToViewModelMapper mapper = new FicheToViewModelMapper();
         for(Theme t : allThemes){
             for(Fiche f : t.getListFiches()){
-                f.setTheme(t);
+                f.setThemeId(t.getThemeId());
                 this.viewItemList.add(f);
             }
         }

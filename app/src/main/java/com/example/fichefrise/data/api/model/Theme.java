@@ -3,6 +3,7 @@ package com.example.fichefrise.data.api.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Theme implements Serializable {
@@ -14,13 +15,21 @@ public class Theme implements Serializable {
     private String nomTheme;
 
     @SerializedName("color")
-    private String color;
+    private int color;
 
     @SerializedName("listFiches")
     private List<Fiche> listFiches;
 
     @SerializedName("listFrises")
     private List<Frise> listFrises;
+
+    public Theme(String name, int color){
+        this.themeId = 0;
+        this.nomTheme = name;
+        this.color = color;
+        this.listFiches = new ArrayList<>();
+        this.listFrises = new ArrayList<>();
+    }
 
     public int getThemeId() {
         return themeId;
@@ -38,11 +47,11 @@ public class Theme implements Serializable {
         this.nomTheme = nomTheme;
     }
 
-    public String getColor() {
+    public int getColor() {
         return color;
     }
 
-    public void setColor(String color) {
+    public void setColor(int color) {
         this.color = color;
     }
 

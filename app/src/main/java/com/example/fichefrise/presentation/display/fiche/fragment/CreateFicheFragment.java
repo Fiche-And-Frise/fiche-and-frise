@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -13,7 +14,9 @@ import com.example.fichefrise.R;
 public class CreateFicheFragment extends Fragment {
 
     private View view;
-    public String name = "";
+    private String name = "";
+    EditText editText;
+
 
     public void setName(String name) {
         this.name = name;
@@ -35,7 +38,7 @@ public class CreateFicheFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_create_fiche, container, false);
-
+        editText = view.findViewById(R.id.editTextFragment);
         return view;
     }
 
@@ -54,5 +57,13 @@ public class CreateFicheFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+    }
+
+    public String getName(){
+        return this.name;
+    }
+
+    public String getContent(){
+        return this.editText.getText().toString();
     }
 }

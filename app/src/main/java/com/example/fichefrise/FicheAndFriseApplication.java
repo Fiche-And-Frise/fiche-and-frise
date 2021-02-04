@@ -44,7 +44,7 @@ public class FicheAndFriseApplication extends Application {
                         @Override
                         public void onError(@NonNull Throwable e) {
                             Log.i("ON ERROR", e.toString());
-                            Toast.makeText(FakeDependencyInjection.getApplicationContext(), "Mauvais identifiants", Toast.LENGTH_LONG)
+                            Toast.makeText(FakeDependencyInjection.getApplicationContext(), "Connexion au serveur échouée", Toast.LENGTH_LONG)
                                     .show();
                         }
 

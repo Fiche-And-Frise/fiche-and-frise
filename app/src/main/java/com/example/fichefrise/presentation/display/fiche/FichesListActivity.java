@@ -41,8 +41,6 @@ public class FichesListActivity extends AppCompatActivity implements FicheAction
     private ThemeAdapter themeAdapter;
     private FicheAdapter ficheAdapter;
     private FicheViewModel ficheViewModel;
-    private List<FicheViewItem> fichesListStatic = new ArrayList<>();
-    private List<FicheViewItem> fichesList = new ArrayList<>();
     private List<Theme> allThemes = new ArrayList<>();
     private static int sort = 0;
 
@@ -58,9 +56,6 @@ public class FichesListActivity extends AppCompatActivity implements FicheAction
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Liste des fiches");
 
-        createFichesWithThemes();
-        createFichesWithoutThemes();
-
         setupRecyclerView();
         registerViewModel();
 
@@ -71,6 +66,9 @@ public class FichesListActivity extends AppCompatActivity implements FicheAction
                 /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
                 Intent i = new Intent(FichesListActivity.this, CreateFicheActivity.class);
+                ArrayList<Theme> myThemes = new ArrayList<>(allThemes);
+                Log.i("ON CLICK", "On est ici : " + myThemes.size());
+                i.putExtra("allThemes", myThemes);
                 startActivity(i);
             }
         });
@@ -81,6 +79,7 @@ public class FichesListActivity extends AppCompatActivity implements FicheAction
         ficheViewModel = new ViewModelProvider(this, FakeDependencyInjection.getViewModelFactory()).get(FicheViewModel.class);
         ficheViewModel.getAllThemes();
         ficheViewModel.getThemes().observe(this, themes -> {
+            allThemes = themes;
             themeAdapter.bindFicheViewModelList(themes);
             ficheAdapter.bindFicheViewModelList(themes);
             });
@@ -124,74 +123,6 @@ public class FichesListActivity extends AppCompatActivity implements FicheAction
 
     }
 
-
-    private void createFichesWithoutThemes(){
-        ArrayList<FicheViewItem> list = new ArrayList<>();
-        FicheViewItem f1 = new FicheViewItem();
-        f1.setFicheId(1);
-        f1.setNomFiche("La première fiche");
-        list.add(f1);
-
-        FicheViewItem f2 = new FicheViewItem();
-        f2.setFicheId(2);
-        f2.setNomFiche("La deuxième fiche");
-        list.add(f2);
-
-        FicheViewItem f3 = new FicheViewItem();
-        f3.setFicheId(3);
-        f3.setNomFiche("La première guerre mondiale");
-        list.add(f3);
-        this.fichesList = list;
-    }
-    private void createFichesWithThemes(){
-        ArrayList<FicheViewItem> list = new ArrayList<>();
-        FicheViewItem f1 = new FicheViewItem();
-        f1.setFicheId(1);
-        f1.setNomFiche("La première fiche");
-        list.add(f1);
-
-        FicheViewItem f2 = new FicheViewItem();
-        f2.setFicheId(2);
-        f2.setNomFiche("La deuxième fiche");
-        list.add(f2);
-
-        FicheViewItem f3 = new FicheViewItem();
-        f3.setFicheId(3);
-        f3.setNomFiche("La première guerre mondiale");
-        list.add(f3);
-
-        this.fichesListStatic = list;
-
-        Fiche fiche1 = new Fiche();
-        fiche1.setFicheId(1);
-        fiche1.setNomFiche("La première fiche");
-
-        Fiche fiche2 = new Fiche();
-        fiche2.setFicheId(2);
-        fiche2.setNomFiche("La deuxième fiche");
-
-        Fiche fiche3 = new Fiche();
-        fiche3.setFicheId(3);
-        fiche3.setNomFiche("La première guerre mondiale");
-
-        Theme t1 = new Theme(), t2 = new Theme(), t3 = new Theme();
-        t1.setNomTheme("Première Guerre Mondiale");
-        t2.setNomTheme("Seconde Guerre Mondiale");
-        t3.setNomTheme("Guerre froide");
-        List<Fiche> fichesList = new ArrayList<>();
-        fichesList.add(fiche1);
-        fichesList.add(fiche2);
-        fichesList.add(fiche3);
-        t1.setListFiches(fichesList);
-        t2.setListFiches(fichesList);
-        t3.setListFiches(fichesList);
-
-        this.allThemes.add(t1);
-        this.allThemes.add(t2);
-        this.allThemes.add(t3);
-
-    }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -216,6 +147,13 @@ public class FichesListActivity extends AppCompatActivity implements FicheAction
         Intent i = new Intent(this, DetailFicheActivity.class);
         Log.i("FICHE CLICKED", "Fiche clicked : " + fiche.toString());
         i.putExtra("fiche", fiche);
+        Theme currentTheme = null;
+        for(Theme t : allThemes){
+            if(t.getThemeId() == fiche.getThemeId()){
+                currentTheme = t;
+            }
+        }
+        i.putExtra("theme", currentTheme);
         startActivity(i);
     }
 }
