@@ -14,7 +14,7 @@ import com.example.fichefrise.R;
 public class DetailFicheFragment extends Fragment {
 
     private View view;
-    public String name = "";
+    private String name = "";
     private String content;
 
     public void setName(String name) {
@@ -53,7 +53,9 @@ public class DetailFicheFragment extends Fragment {
         super.onStart();
     }
 
-
+    public String getName(){
+        return this.name;
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

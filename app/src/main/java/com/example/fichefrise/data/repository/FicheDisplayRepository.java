@@ -21,6 +21,5 @@ public interface FicheDisplayRepository {
 
     Completable updateFiche(int id);
 
-    Completable removeFiche(int id);
-
+    Completable deleteFiche(int ficheId);
 }

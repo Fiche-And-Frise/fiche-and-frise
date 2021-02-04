@@ -255,6 +255,7 @@ public class CreateFicheActivity extends AppCompatActivity implements AdapterVie
                         i.putExtra("fiche", fiche);
                         i.putExtra("theme", selectedTheme);
                         startActivity(i);
+                        setResult(FichesListActivity.FICHES_UPDATED);
                         finish();
                         Toast.makeText(FakeDependencyInjection.getApplicationContext(), "Fiche créée", Toast.LENGTH_SHORT)
                                 .show();

@@ -1,10 +1,13 @@
 package com.example.fichefrise.presentation.display.fiche;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +19,16 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.fichefrise.R;
 import com.example.fichefrise.data.api.model.Fiche;
 import com.example.fichefrise.data.api.model.Theme;
+import com.example.fichefrise.data.di.FakeDependencyInjection;
+import com.example.fichefrise.data.repository.FicheDisplayRepository;
 import com.example.fichefrise.presentation.display.fiche.fragment.DetailFicheFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableCompletableObserver;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
 
 public class DetailFicheActivity extends AppCompatActivity {
 
@@ -37,6 +49,7 @@ public class DetailFicheActivity extends AppCompatActivity {
 
         setupTextViews();
         setupViewPagerAndTabs();
+        setupDeleteFab();
 
     }
 
@@ -71,9 +84,9 @@ public class DetailFicheActivity extends AppCompatActivity {
             @Override
             public CharSequence getPageTitle(int position) {
                 if (position == 0) {
-                    return fragmentRecto.name;
+                    return fragmentRecto.getName();
                 }
-                return fragmentVerso.name;
+                return fragmentVerso.getName();
             }
         });
     }
@@ -90,5 +103,35 @@ public class DetailFicheActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setupDeleteFab(){
+        FloatingActionButton fab = findViewById(R.id.fabDeleteFiche);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FicheDisplayRepository repo = FakeDependencyInjection.getFicheDisplayRepository();
+                CompositeDisposable compositeDisposable = new CompositeDisposable();
+                compositeDisposable.clear();
+                compositeDisposable.add(repo.deleteFiche(fiche.getFicheId())
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new DisposableCompletableObserver(){
+
+                            @Override
+                            public void onComplete() {
+                                setResult(FichesListActivity.FICHES_UPDATED);
+                                finish();
+                                Toast.makeText(FakeDependencyInjection.getApplicationContext(), "Fiche supprimée", Toast.LENGTH_SHORT)
+                                        .show();
+                            }
+
+                            @Override
+                            public void onError(@NonNull Throwable e) {
+                                Log.e("ERROR", e.toString());
+                            }
+                        }));
+            }
+        });
     }
 }

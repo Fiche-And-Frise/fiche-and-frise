@@ -49,7 +49,7 @@ public class FicheDisplayDataRepository implements FicheDisplayRepository {
     }
 
     @Override
-    public Completable removeFiche(int id) {
-        return null;
+    public Completable deleteFiche(int id) {
+        return this.ficheDisplayRemoteDataSource.deleteFiche(id);
     }
 }

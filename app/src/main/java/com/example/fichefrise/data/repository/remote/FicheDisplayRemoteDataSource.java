@@ -9,6 +9,7 @@ import com.example.fichefrise.data.api.model.Theme;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
 
 public class FicheDisplayRemoteDataSource {
@@ -31,4 +32,7 @@ public class FicheDisplayRemoteDataSource {
         return this.ficheDisplayService.createNewFiche(request);
     }
 
+    public Completable deleteFiche(int id) {
+        return this.ficheDisplayService.deleteFiche(id);
+    }
 }

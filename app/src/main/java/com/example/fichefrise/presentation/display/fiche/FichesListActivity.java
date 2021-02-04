@@ -16,6 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -36,6 +37,7 @@ import java.util.Objects;
 
 public class FichesListActivity extends AppCompatActivity implements FicheActionInterface {
 
+    public static final int FICHES_UPDATED = 111;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private ThemeAdapter themeAdapter;
@@ -69,7 +71,7 @@ public class FichesListActivity extends AppCompatActivity implements FicheAction
                 ArrayList<Theme> myThemes = new ArrayList<>(allThemes);
                 Log.i("ON CLICK", "On est ici : " + myThemes.size());
                 i.putExtra("allThemes", myThemes);
-                startActivity(i);
+                startActivityForResult(i, 150);
             }
         });
     }
@@ -154,6 +156,14 @@ public class FichesListActivity extends AppCompatActivity implements FicheAction
             }
         }
         i.putExtra("theme", currentTheme);
-        startActivity(i);
+        startActivityForResult(i, 150);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == FICHES_UPDATED){
+            this.ficheViewModel.getAllThemes();
+        }
     }
 }
