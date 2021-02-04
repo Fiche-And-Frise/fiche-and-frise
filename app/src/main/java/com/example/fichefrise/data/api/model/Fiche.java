@@ -20,7 +20,7 @@ public class Fiche implements Serializable {
     @SerializedName("verso")
     private String verso;
 
-    private String themeName;
+    private Theme theme;
 
     public int getFicheId() {
         return ficheId;
@@ -54,12 +54,12 @@ public class Fiche implements Serializable {
         this.verso = verso;
     }
 
-    public String getThemeName() {
-        return themeName;
+    public Theme getTheme() {
+        return theme;
     }
 
-    public void setThemeName(String themeName) {
-        this.themeName = themeName;
+    public void setTheme(Theme theme) {
+        this.theme = theme;
     }
 
     @NonNull

@@ -41,7 +41,7 @@ public class DetailFicheActivity extends AppCompatActivity {
         TextView titleView = findViewById(R.id.fiche_name);
         titleView.setText(fiche.getNomFiche());
         TextView themeView = findViewById(R.id.theme_name);
-        themeView.setText(fiche.getThemeName());
+        themeView.setText(fiche.getTheme().getNomTheme());
     }
 
     private void setupViewPagerAndTabs() {

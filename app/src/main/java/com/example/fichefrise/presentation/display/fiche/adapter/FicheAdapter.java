@@ -21,6 +21,7 @@ import java.util.List;
 public class FicheAdapter extends RecyclerView.Adapter<FicheAdapter.FicheViewHolder> {
 
     private List<Fiche> viewItemList = Collections.emptyList();
+    private List<Theme> themesList = Collections.emptyList();
     private FicheActionInterface ficheActionInterface;
 
     public FicheAdapter(FicheActionInterface ficheActionInterface){
@@ -51,7 +52,7 @@ public class FicheAdapter extends RecyclerView.Adapter<FicheAdapter.FicheViewHol
         FicheToViewModelMapper mapper = new FicheToViewModelMapper();
         for(Theme t : allThemes){
             for(Fiche f : t.getListFiches()){
-                f.setThemeName(t.getNomTheme());
+                f.setTheme(t);
                 this.viewItemList.add(f);
             }
         }

@@ -2,9 +2,10 @@ package com.example.fichefrise.data.api.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Theme {
+public class Theme implements Serializable {
 
     @SerializedName("id")
     private int themeId;
