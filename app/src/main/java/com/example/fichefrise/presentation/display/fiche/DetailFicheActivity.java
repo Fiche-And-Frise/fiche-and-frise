@@ -1,6 +1,7 @@
 package com.example.fichefrise.presentation.display.fiche;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -110,28 +112,49 @@ public class DetailFicheActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FicheDisplayRepository repo = FakeDependencyInjection.getFicheDisplayRepository();
-                CompositeDisposable compositeDisposable = new CompositeDisposable();
-                compositeDisposable.clear();
-                compositeDisposable.add(repo.deleteFiche(fiche.getFicheId())
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeWith(new DisposableCompletableObserver(){
-
-                            @Override
-                            public void onComplete() {
-                                setResult(FichesListActivity.FICHES_UPDATED);
-                                finish();
-                                Toast.makeText(FakeDependencyInjection.getApplicationContext(), "Fiche supprimée", Toast.LENGTH_SHORT)
-                                        .show();
-                            }
-
-                            @Override
-                            public void onError(@NonNull Throwable e) {
-                                Log.e("ERROR", e.toString());
-                            }
-                        }));
+                deleteFiche();
             }
         });
+    }
+
+    private void deleteFiche(){
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        FicheDisplayRepository repo = FakeDependencyInjection.getFicheDisplayRepository();
+                        CompositeDisposable compositeDisposable = new CompositeDisposable();
+                        compositeDisposable.clear();
+                        compositeDisposable.add(repo.deleteFiche(fiche.getFicheId())
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribeWith(new DisposableCompletableObserver(){
+
+                                    @Override
+                                    public void onComplete() {
+                                        setResult(FichesListActivity.FICHES_UPDATED);
+                                        finish();
+                                        Toast.makeText(FakeDependencyInjection.getApplicationContext(), "Fiche supprimée", Toast.LENGTH_SHORT)
+                                                .show();
+                                    }
+
+                                    @Override
+                                    public void onError(@NonNull Throwable e) {
+                                        Log.e("ERROR", e.toString());
+                                    }
+                                }));
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(DetailFicheActivity.this);
+        builder.setMessage("Effacer la fiche ?").setPositiveButton("Oui", dialogClickListener)
+                .setNegativeButton("Non", dialogClickListener).show();
     }
 }
