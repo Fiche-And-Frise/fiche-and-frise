@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -26,6 +27,8 @@ import com.example.fichefrise.data.repository.FicheDisplayRepository;
 import com.example.fichefrise.presentation.display.fiche.fragment.DetailFicheFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableCompletableObserver;
@@ -37,6 +40,7 @@ public class DetailFicheActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private Fiche fiche;
     private Theme theme;
+    DetailFicheFragment fragmentRecto, fragmentVerso;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,10 +56,25 @@ public class DetailFicheActivity extends AppCompatActivity {
         setupTextViews();
         setupViewPagerAndTabs();
         setupDeleteFab();
+        setupUpdateFab();
 
     }
 
+    private void setupUpdateFab() {
+        FloatingActionButton fab = findViewById(R.id.fabUpdateFiche);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(DetailFicheActivity.this, UpdateFicheActivity.class);
+                i.putExtra("fiche", fiche);
+                i.putExtra("theme", theme);
+                startActivityForResult(i, 250);
+            }
+        });
+    }
+
     private void setupTextViews() {
+        Log.i("ON EST DANS LE SETUP", "Voilà");
         TextView titleView = findViewById(R.id.fiche_name);
         titleView.setText(fiche.getNomFiche());
         TextView themeView = findViewById(R.id.theme_name);
@@ -64,8 +83,8 @@ public class DetailFicheActivity extends AppCompatActivity {
 
     private void setupViewPagerAndTabs() {
         viewPager = findViewById(R.id.view_pager);
-        final DetailFicheFragment fragmentRecto = DetailFicheFragment.newInstance(0, fiche.getRecto());
-        final DetailFicheFragment fragmentVerso = DetailFicheFragment.newInstance(1, fiche.getVerso());
+        fragmentRecto = DetailFicheFragment.newInstance(0, fiche.getRecto());
+        fragmentVerso = DetailFicheFragment.newInstance(1, fiche.getVerso());
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
 
             @Override
@@ -156,5 +175,21 @@ public class DetailFicheActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(DetailFicheActivity.this);
         builder.setMessage("Effacer la fiche ?").setPositiveButton("Oui", dialogClickListener)
                 .setNegativeButton("Non", dialogClickListener).show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == FichesListActivity.FICHE_UPDATED){
+            setResult(FichesListActivity.FICHES_UPDATED);
+            assert data != null;
+            fiche = (Fiche) data.getSerializableExtra("fiche");
+            assert fiche != null;
+            Log.i("RECTO", "Le recto : " + fiche.getRecto());
+            theme = (Theme) data.getSerializableExtra("theme");
+            setupTextViews();
+            fragmentRecto.setContent(fiche.getRecto());
+            fragmentVerso.setContent(fiche.getVerso());
+        }
     }
 }

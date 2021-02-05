@@ -38,6 +38,7 @@ import java.util.Objects;
 public class FichesListActivity extends AppCompatActivity implements FicheActionInterface {
 
     public static final int FICHES_UPDATED = 111;
+    public static final int FICHE_UPDATED = 222;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private ThemeAdapter themeAdapter;

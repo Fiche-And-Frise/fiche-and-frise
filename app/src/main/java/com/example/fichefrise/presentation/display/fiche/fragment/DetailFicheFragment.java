@@ -16,6 +16,7 @@ public class DetailFicheFragment extends Fragment {
     private View view;
     private String name = "";
     private String content;
+    private TextView contentView;
 
     public void setName(String name) {
         this.name = name;
@@ -38,8 +39,8 @@ public class DetailFicheFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_detail_fiche, container, false);
-        TextView rectoTextView = view.findViewById(R.id.textViewFragment);
-        rectoTextView.setText(content);
+        contentView = view.findViewById(R.id.textViewFragment);
+        contentView.setText(content);
         return view;
     }
 
@@ -55,6 +56,11 @@ public class DetailFicheFragment extends Fragment {
 
     public String getName(){
         return this.name;
+    }
+
+    public void setContent(String content){
+        this.content = content;
+        this.contentView.setText(content);
     }
 
     @Override

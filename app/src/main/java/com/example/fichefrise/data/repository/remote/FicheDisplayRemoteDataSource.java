@@ -35,4 +35,8 @@ public class FicheDisplayRemoteDataSource {
     public Completable deleteFiche(int id) {
         return this.ficheDisplayService.deleteFiche(id);
     }
+
+    public Single<Fiche> updateFiche(NewFicheRequest request) {
+        return this.ficheDisplayService.updateFiche(request);
+    }
 }

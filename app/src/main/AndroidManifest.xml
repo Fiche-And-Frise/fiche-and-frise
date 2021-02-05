@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.fichefrise">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-
     <application
-android:name=".FicheAndFriseApplication"
+        android:name=".FicheAndFriseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FicheFrise">
+        <activity android:name=".presentation.display.fiche.UpdateFicheActivity"></activity>
         <activity
             android:name=".presentation.display.login.LoginActivity"
-            android:label="@string/title_activity_login">
-        </activity>
+            android:label="@string/title_activity_login"></activity>
         <activity android:name=".presentation.display.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.display.fiche.CreateFicheActivity"
-            android:parentActivityName="com.example.fichefrise.presentation.display.fiche.FichesListActivity"
-            />
+        <activity
+            android:name=".presentation.display.fiche.CreateFicheActivity"
+            android:parentActivityName=".presentation.display.fiche.FichesListActivity" />
         <activity android:name=".presentation.display.fiche.DetailFicheActivity" />
-        <activity android:name=".presentation.display.fiche.FichesListActivity"
-            android:parentActivityName="com.example.fichefrise.presentation.display.MainActivity"
-            />
-
+        <activity
+            android:name=".presentation.display.fiche.FichesListActivity"
+            android:parentActivityName=".presentation.display.MainActivity" />
     </application>
 
 </manifest>

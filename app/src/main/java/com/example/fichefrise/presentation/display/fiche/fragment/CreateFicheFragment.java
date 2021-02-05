@@ -16,22 +16,29 @@ public class CreateFicheFragment extends Fragment {
     private View view;
     private String name = "";
     EditText editText;
+    private String content;
 
 
     public void setName(String name) {
         this.name = name;
     }
+    public void setContent(String content){ this.content = content; }
 
-    public CreateFicheFragment(int type){
+    public CreateFicheFragment(int type, String content){
         if(type == 0){
             setName("RECTO");
         }else{
             setName("VERSO");
         }
+        this.content = content;
     }
 
     public static CreateFicheFragment newInstance(int type) {
-        return new CreateFicheFragment(type);
+        return new CreateFicheFragment(type, "");
+    }
+
+    public static CreateFicheFragment newInstance(int type, String content) {
+        return new CreateFicheFragment(type, content);
     }
 
     @Override
@@ -39,6 +46,7 @@ public class CreateFicheFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_create_fiche, container, false);
         editText = view.findViewById(R.id.editTextFragment);
+        editText.setText(content);
         return view;
     }
 

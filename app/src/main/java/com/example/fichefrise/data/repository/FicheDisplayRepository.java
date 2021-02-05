@@ -19,7 +19,7 @@ public interface FicheDisplayRepository {
 
     Completable addFiche(int id);
 
-    Completable updateFiche(int id);
+    Single<Fiche> updateFiche(NewFicheRequest request);
 
     Completable deleteFiche(int ficheId);
 }

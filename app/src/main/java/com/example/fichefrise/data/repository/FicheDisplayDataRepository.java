@@ -44,8 +44,8 @@ public class FicheDisplayDataRepository implements FicheDisplayRepository {
     }
 
     @Override
-    public Completable updateFiche(int id) {
-        return null;
+    public Single<Fiche> updateFiche(NewFicheRequest request) {
+        return this.ficheDisplayRemoteDataSource.updateFiche(request);
     }
 
     @Override
