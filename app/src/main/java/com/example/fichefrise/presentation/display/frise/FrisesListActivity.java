@@ -1,5 +1,6 @@
 package com.example.fichefrise.presentation.display.frise;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.View;
@@ -101,6 +102,8 @@ public class FrisesListActivity extends AppCompatActivity implements FriseAction
 
     @Override
     public void onFriseClicked(Frise frise) {
-
+        Intent i = new Intent(FrisesListActivity.this, FriseDetailsActivity.class);
+        i.putExtra("frise", frise);
+        startActivityForResult(i, 500);
     }
 }
