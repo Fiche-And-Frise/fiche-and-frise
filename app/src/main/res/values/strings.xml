@@ -19,5 +19,7 @@
     <string name="fiche">Fiches</string>
     <string name="frise">Frises</string>
     <string name="update_fiche">update_fiche</string>
+    <string name="add_new_frise">Add new frise</string>
+    <string name="frise_icon">Frise icon</string>
 
 </resources>

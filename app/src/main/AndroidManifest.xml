@@ -13,10 +13,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FicheFrise">
-        <activity android:name=".presentation.display.fiche.UpdateFicheActivity"></activity>
+        <activity android:name=".presentation.display.fiche.UpdateFicheActivity" />
         <activity
             android:name=".presentation.display.login.LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login" />
         <activity android:name=".presentation.display.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,6 +30,9 @@
         <activity android:name=".presentation.display.fiche.DetailFicheActivity" />
         <activity
             android:name=".presentation.display.fiche.FichesListActivity"
+            android:parentActivityName=".presentation.display.MainActivity" />
+        <activity
+            android:name=".presentation.display.frise.FrisesListActivity"
             android:parentActivityName=".presentation.display.MainActivity" />
     </application>
 

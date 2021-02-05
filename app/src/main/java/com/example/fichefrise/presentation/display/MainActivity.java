@@ -22,6 +22,7 @@ import com.example.fichefrise.data.di.FakeDependencyInjection;
 import com.example.fichefrise.presentation.display.fiche.CreateFicheActivity;
 import com.example.fichefrise.presentation.display.fiche.FichesListActivity;
 import com.example.fichefrise.presentation.display.fiche.DetailFicheActivity;
+import com.example.fichefrise.presentation.display.frise.FrisesListActivity;
 import com.example.fichefrise.presentation.display.login.LoginActivity;
 import com.example.fichefrise.presentation.display.login.LoginResult;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -66,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
         friseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent i = new Intent(MainActivity.this, FrisesListActivity.class);
+                startActivity(i);
             }
         });
 
