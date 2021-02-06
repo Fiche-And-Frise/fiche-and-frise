@@ -26,7 +26,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        android:hint="Année de départ"
         android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBar"/>
@@ -37,14 +36,14 @@
         android:id="@+id/evenements_recyclerview"
         app:layout_constraintTop_toBottomOf="@id/begin_date_textview"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_margin="15dp"/>
-
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"/>
     <TextView
         android:id="@+id/end_date_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        android:hint="Année de fin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/evenements_recyclerview"
         android:layout_marginTop="10dp"/>

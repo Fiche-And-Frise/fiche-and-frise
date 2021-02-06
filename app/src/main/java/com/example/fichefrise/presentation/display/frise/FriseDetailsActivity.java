@@ -1,11 +1,14 @@
 package com.example.fichefrise.presentation.display.frise;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.fichefrise.R;
@@ -52,5 +55,18 @@ public class FriseDetailsActivity extends AppCompatActivity {
         TextView endView = findViewById(R.id.end_date_textview);
         beginView.setText(String.valueOf(frise.getDateDebutFrise()));
         endView.setText(String.valueOf(frise.getDateFinFrise()));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        // back button
+        if (id == android.R.id.home) {
+            finish();
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
