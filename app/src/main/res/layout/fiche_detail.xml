@@ -102,6 +102,6 @@
         android:layout_margin="16dp"
         android:src="@drawable/ic_baseline_delete_forever_24"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:contentDescription="@string/update_fiche" />
+        app:layout_constraintRight_toLeftOf="@+id/fabUpdateFiche"
+        android:contentDescription="@string/delete_fiche" />
 </androidx.constraintlayout.widget.ConstraintLayout>

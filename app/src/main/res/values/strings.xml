@@ -7,13 +7,14 @@
     <string name="alphabetic_theme_sort">alphabetic or theme sort</string>
     <string name="create_theme_validation">Create Theme Validation</string>
     <string name="title_activity_login">Fiche&amp;Frise</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in</string>
-    <string name="action_register">Register</string>
+    <string name="prompt_email">Nom d\'utilisateur</string>
+    <string name="prompt_password">Mot de passe</string>
+    <string name="action_sign_in">Connexion</string>
+    <string name="action_register">Inscription</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome !"</string>
     <string name="welcome_msg">"Bienvenue sur Fiche&amp;Frise"</string>
+    <string name="new_user">"Nouveau? \nVous pouvez vous inscrire en cliquant juste ici!"</string>
     <string name="invalid_username">L\'identifiant doit faire 3 caractères minimum</string>
     <string name="invalid_password">Le mot de passe doit faire 3 caractères minimum</string>
     <string name="login_failed">"Connexion échouée"</string>
@@ -21,6 +22,7 @@
     <string name="fiche">Fiches</string>
     <string name="frise">Frises</string>
     <string name="update_fiche">update_fiche</string>
+    <string name="delete_fiche">delete_fiche</string>
     <string name="add_new_frise">Add new frise</string>
     <string name="frise_icon">Frise icon</string>
 
