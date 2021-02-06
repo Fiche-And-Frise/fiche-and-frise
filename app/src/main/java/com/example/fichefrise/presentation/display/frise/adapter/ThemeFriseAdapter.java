@@ -44,7 +44,7 @@ public class ThemeFriseAdapter extends RecyclerView.Adapter<ThemeFriseAdapter.Th
         return this.themeList.size();
     }
 
-    public void bindFicheViewModelList(List<Theme> themeListStatic) {
+    public void bindFriseViewModelList(List<Theme> themeListStatic) {
         this.themeList = themeListStatic;
         notifyDataSetChanged();
     }

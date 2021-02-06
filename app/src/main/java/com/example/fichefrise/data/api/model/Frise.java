@@ -3,6 +3,7 @@ package com.example.fichefrise.data.api.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 public class Frise implements Serializable {
@@ -20,6 +21,13 @@ public class Frise implements Serializable {
 
     @SerializedName("evenements")
     private List<Evenement> listEvenements;
+
+    public Frise(String nomFrise, int dateDebutFrise, int dateFinFrise) {
+        this.nomFrise = nomFrise;
+        this.dateDebutFrise = dateDebutFrise;
+        this.dateFinFrise = dateFinFrise;
+        this.listEvenements = Collections.emptyList();
+    }
 
     public int getFriseId() {
         return friseId;

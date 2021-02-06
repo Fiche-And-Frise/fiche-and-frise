@@ -1,6 +1,7 @@
 package com.example.fichefrise;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import io.reactivex.observers.DisposableMaybeObserver;
 import io.reactivex.schedulers.Schedulers;
 
 public class FicheAndFriseApplication extends Application {
+    private final Context ctx = this;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -46,6 +48,7 @@ public class FicheAndFriseApplication extends Application {
                             Log.i("ON ERROR", e.toString());
                             Toast.makeText(FakeDependencyInjection.getApplicationContext(), "Connexion au serveur échouée", Toast.LENGTH_LONG)
                                     .show();
+                            SaveSharedPreference.clearUserName(ctx);
                         }
 
                         @Override

@@ -22,6 +22,8 @@ import com.example.fichefrise.data.api.model.Fiche;
 import com.example.fichefrise.data.api.model.Frise;
 import com.example.fichefrise.data.api.model.Theme;
 import com.example.fichefrise.data.di.FakeDependencyInjection;
+import com.example.fichefrise.presentation.display.fiche.CreateFicheActivity;
+import com.example.fichefrise.presentation.display.fiche.FichesListActivity;
 import com.example.fichefrise.presentation.display.fiche.adapter.FicheActionInterface;
 import com.example.fichefrise.presentation.display.fiche.adapter.FicheAdapter;
 import com.example.fichefrise.presentation.display.fiche.adapter.ThemeAdapter;
@@ -30,10 +32,13 @@ import com.example.fichefrise.presentation.display.frise.adapter.FriseAdapter;
 import com.example.fichefrise.presentation.display.frise.adapter.ThemeFriseAdapter;
 import com.example.fichefrise.presentation.viewmodel.FicheViewModel;
 import com.example.fichefrise.presentation.viewmodel.FriseViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static com.example.fichefrise.presentation.display.fiche.FichesListActivity.FICHES_UPDATED;
 
 
 public class FrisesListActivity extends AppCompatActivity implements FriseActionInterface {
@@ -51,14 +56,27 @@ public class FrisesListActivity extends AppCompatActivity implements FriseAction
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fiches_list);
-        toolbar = findViewById(R.id.toolbarFichesList);
+        setContentView(R.layout.activity_frises_list);
+        toolbar = findViewById(R.id.toolbarFrisesList);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Liste des frises");
 
         setupRecyclerView();
         registerViewModel();
+
+        FloatingActionButton fab = findViewById(R.id.fabListFrise);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
+                Intent i = new Intent(FrisesListActivity.this, CreateFriseActivity.class);
+                ArrayList<Theme> myThemes = new ArrayList<>(allThemes);
+                i.putExtra("allThemes", myThemes);
+                startActivityForResult(i, 350);
+            }
+        });
     }
 
     private void registerViewModel() {
@@ -66,7 +84,7 @@ public class FrisesListActivity extends AppCompatActivity implements FriseAction
         friseViewModel.getAllThemes();
         friseViewModel.getThemes().observe(this, themes -> {
             allThemes = themes;
-            themeAdapter.bindFicheViewModelList(themes);
+            themeAdapter.bindFriseViewModelList(themes);
             friseAdapter.bindFriseViewModelList(themes);
         });
     }
@@ -127,4 +145,12 @@ public class FrisesListActivity extends AppCompatActivity implements FriseAction
         }
         return super.onOptionsItemSelected(item);
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == FICHES_UPDATED){
+            this.friseViewModel.getAllThemes();
+        }
+    }
+
 }

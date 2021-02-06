@@ -25,5 +25,7 @@
     <string name="delete_fiche">delete_fiche</string>
     <string name="add_new_frise">Add new frise</string>
     <string name="frise_icon">Frise icon</string>
+    <string name="create_frise_validation">Validate frise creation</string>
+    <string name="dates_textview">Veuillez indiquer l\'année de début et cell de fin de votre frise chronologique</string>
 
 </resources>

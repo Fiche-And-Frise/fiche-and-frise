@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.display.frise.CreateFriseActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/appBar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        >
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:titleTextColor="?attr/colorSecondary" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <EditText
+        android:id="@+id/edit_frise_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Le nom de la frise"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBar"
+        app:layout_constraintBottom_toTopOf="@+id/theme_layout"
+        android:layout_marginTop="15dp"/>
+
+    <LinearLayout
+        android:id="@+id/theme_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/edit_frise_name"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="30dp">
+        <TextView
+            android:id="@+id/spinner_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Theme : "/>
+        <Spinner
+            android:id="@+id/theme_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+        <ImageButton
+            android:id="@+id/add_theme_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_add_24"
+            android:background="@color/teal_700"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/dates_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/theme_layout"
+        android:layout_marginTop="30dp"
+        android:text="@string/dates_textview"
+        android:gravity="center"
+        android:paddingStart="30dp"
+        android:paddingEnd="30dp"
+        />
+
+    <TextView
+        android:id="@+id/begin_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/dates_textview"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="40dp"
+        android:text="Début :"/>
+
+    <EditText
+        android:id="@+id/begin_edittext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/begin_textview"
+        app:layout_constraintStart_toEndOf="@id/begin_textview"
+        app:layout_constraintBottom_toBottomOf="@id/begin_textview"
+        android:layout_marginStart="10dp"
+        android:hint="1914"
+        android:inputType="numberSigned"/>
+
+    <TextView
+        android:id="@+id/end_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/begin_textview"
+        app:layout_constraintEnd_toEndOf="@id/begin_textview"
+        android:layout_marginTop="35dp"
+        android:text="Fin :"/>
+
+    <EditText
+        android:id="@+id/end_edittext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/end_textview"
+        app:layout_constraintStart_toEndOf="@id/end_textview"
+        app:layout_constraintBottom_toBottomOf="@id/end_textview"
+        android:layout_marginStart="10dp"
+        android:hint="1918"
+        android:inputType="numberSigned"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabCreateFrise"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_baseline_check_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:contentDescription="@string/create_frise_validation" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
