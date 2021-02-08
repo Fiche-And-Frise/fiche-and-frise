@@ -36,9 +36,12 @@
         android:id="@+id/evenements_recyclerview"
         app:layout_constraintTop_toBottomOf="@id/begin_date_textview"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginTop="15dp"
         android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"/>
+        android:layout_marginEnd="15dp"
+        android:paddingBottom="?attr/actionBarSize"
+        android:layout_marginBottom="50dp"/>
     <TextView
         android:id="@+id/end_date_textview"
         android:layout_width="wrap_content"
@@ -47,5 +50,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/evenements_recyclerview"
         android:layout_marginTop="10dp"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add_evenement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_baseline_add_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:contentDescription="@string/add_evenement_to_frise" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

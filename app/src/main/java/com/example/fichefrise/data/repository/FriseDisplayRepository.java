@@ -2,6 +2,7 @@ package com.example.fichefrise.data.repository;
 
 import com.example.fichefrise.data.api.model.Evenement;
 import com.example.fichefrise.data.api.model.Frise;
+import com.example.fichefrise.data.api.model.NewEvenementRequest;
 import com.example.fichefrise.data.api.model.NewFriseRequest;
 
 import java.util.List;
@@ -20,4 +21,6 @@ public interface FriseDisplayRepository {
     Single<Evenement> getEvenementById(int friseId, int evenementId);
 
     Single<Frise> createNewFrise(NewFriseRequest request);
+
+    Single<Frise> createNewEvenement(NewEvenementRequest request);
 }

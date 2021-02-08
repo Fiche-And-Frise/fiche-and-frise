@@ -1,12 +1,14 @@
 package com.example.fichefrise.data.api.model;
 
-public class NewFriseRequest {
+public class NewEvenementRequest {
     private Frise frise;
     private Theme theme;
+    private Evenement evenement;
 
-    public NewFriseRequest(Frise frise, Theme theme) {
+    public NewEvenementRequest(Frise frise, Theme theme, Evenement evenement) {
         this.frise = frise;
         this.theme = theme;
+        this.evenement = evenement;
     }
 
     public Frise getFrise() {
@@ -23,5 +25,13 @@ public class NewFriseRequest {
 
     public void setTheme(Theme theme) {
         this.theme = theme;
+    }
+
+    public Evenement getEvenement() {
+        return evenement;
+    }
+
+    public void setEvenement(Evenement evenement) {
+        this.evenement = evenement;
     }
 }

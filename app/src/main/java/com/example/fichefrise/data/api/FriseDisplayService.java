@@ -3,6 +3,7 @@ package com.example.fichefrise.data.api;
 
 import com.example.fichefrise.data.api.model.Evenement;
 import com.example.fichefrise.data.api.model.Frise;
+import com.example.fichefrise.data.api.model.NewEvenementRequest;
 import com.example.fichefrise.data.api.model.NewFriseRequest;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import io.reactivex.Single;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface FriseDisplayService {
@@ -29,4 +31,7 @@ public interface FriseDisplayService {
 
     @POST("frises/new")
     Single<Frise> createNewFrise(@Body NewFriseRequest request);
+
+    @PUT("frises/update")
+    Single<Frise> createNewEvenement(@Body NewEvenementRequest request);
 }

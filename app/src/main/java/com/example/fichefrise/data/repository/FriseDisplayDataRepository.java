@@ -2,6 +2,7 @@ package com.example.fichefrise.data.repository;
 
 import com.example.fichefrise.data.api.model.Evenement;
 import com.example.fichefrise.data.api.model.Frise;
+import com.example.fichefrise.data.api.model.NewEvenementRequest;
 import com.example.fichefrise.data.api.model.NewFriseRequest;
 import com.example.fichefrise.data.repository.remote.FriseDisplayRemoteDataSource;
 
@@ -40,5 +41,10 @@ public class FriseDisplayDataRepository implements FriseDisplayRepository{
     @Override
     public Single<Frise> createNewFrise(NewFriseRequest request) {
         return this.friseDisplayRemoteDataSource.createNewFrise(request);
+    }
+
+    @Override
+    public Single<Frise> createNewEvenement(NewEvenementRequest request) {
+        return this.friseDisplayRemoteDataSource.createNewEvenement(request);
     }
 }
