@@ -20,18 +20,33 @@ import java.util.List;
 public class EvenementAdapter extends RecyclerView.Adapter<EvenementAdapter.EvenementViewHolder>{
 
     private List<Evenement> viewItemList = Collections.emptyList();
+    private final static int RANDOM_EVENT = 999, LAST_EVENT = 995;
 
     @NonNull
     @Override
     public EvenementViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_evenement_recyclerview, parent, false);
+        View v;
+        if(viewType == LAST_EVENT){
+            v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.last_item_evenement_recyclerview, parent, false);
+        } else {
+            v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_evenement_recyclerview, parent, false);
+        }
         return new EvenementViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull EvenementAdapter.EvenementViewHolder holder, int position) {
         holder.bind(viewItemList.get(position));
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if(position == getItemCount()-1){
+            return LAST_EVENT;
+        }
+        return RANDOM_EVENT;
     }
 
     @Override
@@ -42,6 +57,7 @@ public class EvenementAdapter extends RecyclerView.Adapter<EvenementAdapter.Even
     public void bindViewModelList(List<Evenement> evenements){
         this.viewItemList = new ArrayList<>();
         this.viewItemList = evenements;
+        this.viewItemList.add(null);
         notifyDataSetChanged();
     }
 
@@ -59,9 +75,11 @@ public class EvenementAdapter extends RecyclerView.Adapter<EvenementAdapter.Even
         }
 
         public void bind(Evenement evenement){
-            evenementViewItem = evenement;
-            dateTextView.setText(String.valueOf(evenement.getDateDebutEvenement()));
-            nameTextView.setText(evenement.getNomEvenement());
+            if(evenement != null){
+                evenementViewItem = evenement;
+                dateTextView.setText(String.valueOf(evenement.getDateDebutEvenement()));
+                nameTextView.setText(evenement.getNomEvenement());
+            }
         }
     }
 }

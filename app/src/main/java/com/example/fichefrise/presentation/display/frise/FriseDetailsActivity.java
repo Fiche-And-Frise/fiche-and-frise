@@ -54,7 +54,7 @@ public class FriseDetailsActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Aperçu d'une frise");
+        getSupportActionBar().setTitle(frise.getNomFrise());
 
         setupTextViews();
         setupRecyclerview();
@@ -75,9 +75,7 @@ public class FriseDetailsActivity extends AppCompatActivity {
 
     private void setupTextViews() {
         TextView beginView = findViewById(R.id.begin_date_textview);
-        TextView endView = findViewById(R.id.end_date_textview);
         beginView.setText(String.valueOf(frise.getDateDebutFrise()));
-        endView.setText(String.valueOf(frise.getDateFinFrise()));
     }
 
     @Override
