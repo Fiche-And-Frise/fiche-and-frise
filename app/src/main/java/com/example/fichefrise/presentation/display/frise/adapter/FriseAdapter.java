@@ -52,7 +52,7 @@ public class FriseAdapter extends RecyclerView.Adapter<FriseAdapter.FriseViewHol
             Log.i("DANS LE BIND", "all themes : " + allThemes.size());
             for(Theme t : allThemes){
                 for(Frise f : t.getListFrises()){
-                    //f.setThemeId(t.getThemeId());
+                    f.setCurrentTheme(t.getThemeId());
                     this.viewItemList.add(f);
                 }
             }

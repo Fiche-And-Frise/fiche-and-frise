@@ -197,10 +197,11 @@ public class CreateFriseActivity extends AppCompatActivity implements AdapterVie
                     @Override
                     public void onSuccess(@NonNull Frise frise) {
                         Log.i("CREATING FRISE", "Ca s'est bien passé !");
-                        Intent i = new Intent(CreateFriseActivity.this, FriseDetailsActivity.class);
+                        /*Intent i = new Intent(CreateFriseActivity.this, FriseDetailsActivity.class);
+                        frise.setCurrentTheme(selectedTheme.getThemeId());
                         i.putExtra("frise", frise);
                         i.putExtra("theme", selectedTheme);
-                        startActivity(i);
+                        startActivity(i);*/
                         setResult(FichesListActivity.FICHES_UPDATED);
                         finish();
                         Toast.makeText(FakeDependencyInjection.getApplicationContext(), "Frise créée", Toast.LENGTH_SHORT)

@@ -29,6 +29,8 @@ public class Frise implements Serializable {
         this.listEvenements = Collections.emptyList();
     }
 
+    private int currentTheme;
+
     public int getFriseId() {
         return friseId;
     }
@@ -67,5 +69,13 @@ public class Frise implements Serializable {
 
     public void setListEvenements(List<Evenement> listEvenements) {
         this.listEvenements = listEvenements;
+    }
+
+    public int getCurrentTheme() {
+        return currentTheme;
+    }
+
+    public void setCurrentTheme(int currentTheme) {
+        this.currentTheme = currentTheme;
     }
 }

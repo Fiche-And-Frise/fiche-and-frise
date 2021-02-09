@@ -13,9 +13,9 @@ public class Evenement implements Serializable {
     private String nomEvenement;
 
     @SerializedName("dateDebut")
-    private int dateDebutEvenement;
+    private String dateDebutEvenement;
 
-    public Evenement(String nomEvenement, int dateDebutEvenement) {
+    public Evenement(String nomEvenement, String dateDebutEvenement) {
         this.nomEvenement = nomEvenement;
         this.dateDebutEvenement = dateDebutEvenement;
     }
@@ -36,11 +36,11 @@ public class Evenement implements Serializable {
         this.nomEvenement = nomEvenement;
     }
 
-    public int getDateDebutEvenement() {
+    public String getDateDebutEvenement() {
         return dateDebutEvenement;
     }
 
-    public void setDateDebutEvenement(int dateDebutEvenement) {
+    public void setDateDebutEvenement(String dateDebutEvenement) {
         this.dateDebutEvenement = dateDebutEvenement;
     }
 }

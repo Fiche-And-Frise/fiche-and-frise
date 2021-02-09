@@ -12,8 +12,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,28 +32,36 @@ import com.example.fichefrise.presentation.display.frise.adapter.EvenementAdapte
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import yuku.ambilwarna.AmbilWarnaDialog;
 
-public class FriseDetailsActivity extends AppCompatActivity {
+import static com.example.fichefrise.presentation.display.fiche.FichesListActivity.FICHES_UPDATED;
+
+public class FriseDetailsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
     private Frise frise;
-    private Theme theme;
+    private int theme;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private EvenementAdapter evenementAdapter;
     private String newEvenementName;
-    private int newEvenementDate;
+    private String newEvenementDate;
+    private ArrayList<String> evenementsNames;
+    Spinner spin;
+    private int selectedEvenementIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_frise_details);
         frise = (Frise) getIntent().getSerializableExtra("frise");
-
+        theme = frise.getCurrentTheme();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -105,6 +116,8 @@ public class FriseDetailsActivity extends AppCompatActivity {
         TextInputEditText newEvenementDateEditText = evenementPopupView.findViewById(R.id.evenement_date_edittext);
         Button newEvenementSaveButton = evenementPopupView.findViewById(R.id.new_evenement_validate_button);
         Button newEvenementCancelButton = evenementPopupView.findViewById(R.id.new_evenement_cancel_button);
+        spin = evenementPopupView.findViewById(R.id.evenement_spinner);
+        setupSpinner(frise.getListEvenements());
 
         dialogBuilder.setView(evenementPopupView);
         AlertDialog dialog = dialogBuilder.create();
@@ -114,20 +127,23 @@ public class FriseDetailsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Log.i("ON CLICK", "Here");
                 newEvenementName = newEvenementNameEditText.getText().toString();
-                newEvenementDate = 0;
+                newEvenementDate = "";
                 try {
                     Log.i("ON CLICK", "Try here");
-                    newEvenementDate = Integer.parseInt(newEvenementDateEditText.getText().toString());
+                    newEvenementDate = newEvenementDateEditText.getText().toString();
                 } catch (Exception e){
                     Toast.makeText(FakeDependencyInjection.getApplicationContext(), "Veuillez entrer une date valide", Toast.LENGTH_SHORT)
                             .show();
                     return;
                 }
                 Log.i("DATA IS CORRECT", "Before validation");
-                if(newEvenementName.length()>0 && newEvenementDate != 0){
+                if(newEvenementName.length()>0 && newEvenementDate.length() > 0){
                     Log.i("DATA IS CORRECT", "Here");
                     saveNewEvenement();
                     dialog.dismiss();
+                } else {
+                    Toast.makeText(FakeDependencyInjection.getApplicationContext(), "Veuillez renseigner un nom et une date valide", Toast.LENGTH_SHORT)
+                            .show();
                 }
 
             }
@@ -144,7 +160,8 @@ public class FriseDetailsActivity extends AppCompatActivity {
     private void saveNewEvenement() {
         Log.i("CREATING EVENEMENT", "Beginning");
         Evenement newEvenement = new Evenement(newEvenementName, newEvenementDate);
-        NewEvenementRequest request = new NewEvenementRequest(frise, theme, newEvenement);
+        frise.getListEvenements().remove(frise.getListEvenements().size()-1);
+        NewEvenementRequest request = new NewEvenementRequest(frise, theme, newEvenement, selectedEvenementIndex);
 
         FriseDisplayRepository repo = FakeDependencyInjection.getFriseDisplayRepository();
 
@@ -162,6 +179,7 @@ public class FriseDetailsActivity extends AppCompatActivity {
                         setupRecyclerview();
                         Toast.makeText(FakeDependencyInjection.getApplicationContext(), "Evènement créé", Toast.LENGTH_SHORT)
                                 .show();
+                        setResult(FICHES_UPDATED);
                     }
 
                     @Override
@@ -173,4 +191,30 @@ public class FriseDetailsActivity extends AppCompatActivity {
                 }));
     }
 
+    private void setupSpinner(List<Evenement> allEvenements) {
+        evenementsNames = new ArrayList<>();
+        evenementsNames.add("Il s'agit du premier événement");
+        for(Evenement e : allEvenements){
+            if(e != null)
+                this.evenementsNames.add(e.getNomEvenement());
+        }
+
+        spin.setOnItemSelectedListener(this);
+
+        //Creating the ArrayAdapter instance having the evenements list
+        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,this.evenementsNames);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        spin.setAdapter(aa);
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            selectedEvenementIndex = position;
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 }

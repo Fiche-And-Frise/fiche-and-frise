@@ -77,7 +77,7 @@ public class EvenementAdapter extends RecyclerView.Adapter<EvenementAdapter.Even
         public void bind(Evenement evenement){
             if(evenement != null){
                 evenementViewItem = evenement;
-                dateTextView.setText(String.valueOf(evenement.getDateDebutEvenement()));
+                dateTextView.setText(evenement.getDateDebutEvenement());
                 nameTextView.setText(evenement.getNomEvenement());
             }
         }
