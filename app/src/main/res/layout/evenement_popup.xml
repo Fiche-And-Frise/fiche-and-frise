@@ -63,7 +63,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:text="A la suite de quel événement souhaitez créer ce nouvel événement"
+        android:text="A la suite de quel événement souhaitez vous créer ce nouvel événement"
         android:id="@+id/indicationsBis_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
