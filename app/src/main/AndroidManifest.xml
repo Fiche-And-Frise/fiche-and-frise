@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FicheFrise">
-        <activity android:name=".presentation.display.frise.CreateEvenementActivity"></activity>
+        <activity android:name=".presentation.display.frise.CreateEvenementActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".presentation.display.frise.CreateFriseActivity" />
         <activity android:name=".presentation.display.frise.FriseDetailsActivity" />
         <activity android:name=".presentation.display.fiche.UpdateFicheActivity" />

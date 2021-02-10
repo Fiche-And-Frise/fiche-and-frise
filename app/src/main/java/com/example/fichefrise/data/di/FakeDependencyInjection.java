@@ -8,6 +8,8 @@ import com.example.fichefrise.data.api.FicheDisplayService;
 import com.example.fichefrise.data.api.FriseDisplayService;
 import com.example.fichefrise.data.api.LoginService;
 import com.example.fichefrise.data.api.ThemeDisplayService;
+import com.example.fichefrise.data.api.model.Fiche;
+import com.example.fichefrise.data.api.model.Theme;
 import com.example.fichefrise.data.repository.FicheDisplayDataRepository;
 import com.example.fichefrise.data.repository.FicheDisplayRepository;
 import com.example.fichefrise.data.repository.FriseDisplayDataRepository;
@@ -19,6 +21,9 @@ import com.example.fichefrise.data.repository.remote.FriseDisplayRemoteDataSourc
 import com.example.fichefrise.data.repository.remote.ThemeDisplayRemoteDataSource;
 import com.example.fichefrise.presentation.viewmodel.ViewModelFactory;
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -41,6 +46,8 @@ public class FakeDependencyInjection {
     private static LoginService loginService;
     private static LoginRepository loginRepository;
     private static ViewModelFactory viewModelFactory;
+
+    private static List<Fiche> allFiches;
 
 
     public static Retrofit getRetrofit() {
@@ -145,5 +152,19 @@ public class FakeDependencyInjection {
             viewModelFactory = new ViewModelFactory(getFicheDisplayRepository(), getThemeDisplayRepository(), getFriseDisplayRepository());
         }
         return viewModelFactory;
+    }
+
+    public static List<Fiche> getAllFiches() {
+        return allFiches;
+    }
+
+    public static void setAllFiches(List<Theme> allThemes) {
+        if(allThemes.size() > 0) {
+            ArrayList<Fiche> newFiches = new ArrayList<>();
+            for (Theme t : allThemes) {
+                newFiches.addAll(t.getListFiches());
+            }
+            FakeDependencyInjection.allFiches = newFiches;
+        }
     }
 }

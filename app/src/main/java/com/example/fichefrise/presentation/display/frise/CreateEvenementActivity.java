@@ -73,7 +73,7 @@ public class CreateEvenementActivity extends AppCompatActivity implements Adapte
 
         viewPager = findViewById(R.id.view_pager);
         fragmentCreate = CreateEvenementFragment.newInstance();
-        fragmentImport = ImportEvenementFragment.newInstance(evenements);
+        fragmentImport = ImportEvenementFragment.newInstance(FakeDependencyInjection.getAllFiches());
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
 
             @Override

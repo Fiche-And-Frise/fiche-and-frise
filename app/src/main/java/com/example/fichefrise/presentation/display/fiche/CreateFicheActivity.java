@@ -58,6 +58,7 @@ public class CreateFicheActivity extends AppCompatActivity implements AdapterVie
     private String newThemeName = "";
     private CreateFicheFragment fragmentRecto, fragmentVerso;
     private Theme selectedTheme;
+    private FloatingActionButton fab;
 
     private ViewPager viewPager;
 
@@ -79,12 +80,13 @@ public class CreateFicheActivity extends AppCompatActivity implements AdapterVie
 
         setupViewPagerAndTabs();
 
-        FloatingActionButton fab = findViewById(R.id.fabCreateFiche);
+        fab = findViewById(R.id.fabCreateFiche);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Intent i = new Intent(CreateFicheActivity.this, FichesListActivity.class);
                 //startActivity(i);
+                fab.setEnabled(false);
                 createNewFiche();
             }
         });
@@ -231,6 +233,7 @@ public class CreateFicheActivity extends AppCompatActivity implements AdapterVie
         if(ficheName.length() < 1){
             Toast.makeText(FakeDependencyInjection.getApplicationContext(), "Veuillez entrer un nom de fiche", Toast.LENGTH_SHORT)
                     .show();
+            fab.setEnabled(true);
             return;
         }
         String ficheRecto = fragmentRecto.getContent();
@@ -264,6 +267,7 @@ public class CreateFicheActivity extends AppCompatActivity implements AdapterVie
                     @Override
                     public void onError(@NonNull Throwable e) {
                         Log.e("CREATING FICHE ERROR", e.toString());
+                        fab.setEnabled(true);
                     }
                 }));
 
