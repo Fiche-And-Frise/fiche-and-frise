@@ -1,6 +1,7 @@
 package com.example.fichefrise.presentation.display.frise;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -32,6 +33,7 @@ import com.example.fichefrise.data.repository.FriseDisplayRepository;
 import com.example.fichefrise.presentation.display.fiche.DetailFicheActivity;
 import com.example.fichefrise.presentation.display.fiche.FichesListActivity;
 import com.example.fichefrise.presentation.display.frise.adapter.EvenementAdapter;
+import com.example.fichefrise.presentation.display.frise.fragment.CreateEvenementFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -49,6 +51,7 @@ import static com.example.fichefrise.presentation.display.fiche.FichesListActivi
 
 public class FriseDetailsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
+    public static final int FRISE_UPDATED = 456;
     private Frise frise;
     private int theme;
     private RecyclerView recyclerView;
@@ -57,7 +60,7 @@ public class FriseDetailsActivity extends AppCompatActivity implements AdapterVi
     private String newEvenementName;
     private String newEvenementDate;
     private ArrayList<String> evenementsNames;
-    Spinner spin;
+    private Spinner spin;
     private int selectedEvenementIndex;
 
     @Override
@@ -109,7 +112,11 @@ public class FriseDetailsActivity extends AppCompatActivity implements AdapterVi
     private void setupFabs() {
         FloatingActionButton fab = findViewById(R.id.fab_add_evenement);
         fab.setOnClickListener(v -> {
-            createDialog();
+            //createDialog();
+            Intent i = new Intent(FriseDetailsActivity.this, CreateEvenementActivity.class);
+            i.putExtra("frise", frise);
+            i.putExtra("theme", theme);
+            startActivityForResult(i, 489);
         });
 
         FloatingActionButton fab2 = findViewById(R.id.fabDeleteFrise);
@@ -270,5 +277,14 @@ public class FriseDetailsActivity extends AppCompatActivity implements AdapterVi
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == FRISE_UPDATED){
+            frise = (Frise) data.getSerializableExtra("frise");
+            setupRecyclerview();
+        }
     }
 }
