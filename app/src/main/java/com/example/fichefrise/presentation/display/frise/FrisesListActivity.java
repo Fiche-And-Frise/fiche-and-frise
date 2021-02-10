@@ -150,6 +150,7 @@ public class FrisesListActivity extends AppCompatActivity implements FriseAction
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == FICHES_UPDATED){
             this.friseViewModel.getAllThemes();
+            setupRecyclerView();
         }
     }
 

@@ -8,6 +8,7 @@ import com.example.fichefrise.data.repository.remote.FriseDisplayRemoteDataSourc
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
 
 public class FriseDisplayDataRepository implements FriseDisplayRepository{
@@ -46,5 +47,10 @@ public class FriseDisplayDataRepository implements FriseDisplayRepository{
     @Override
     public Single<Frise> createNewEvenement(NewEvenementRequest request) {
         return this.friseDisplayRemoteDataSource.createNewEvenement(request);
+    }
+
+    @Override
+    public Completable deleteFrise(int friseId) {
+        return this.friseDisplayRemoteDataSource.deleteFrise(friseId);
     }
 }

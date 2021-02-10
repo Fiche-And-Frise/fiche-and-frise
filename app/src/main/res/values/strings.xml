@@ -28,5 +28,6 @@
     <string name="create_frise_validation">Validate frise creation</string>
     <string name="dates_textview">Veuillez indiquer l\'année de début et cell de fin de votre frise chronologique</string>
     <string name="add_evenement_to_frise">Add evenement to frise</string>
+    <string name="delete_frise">Delete frise</string>
 
 </resources>

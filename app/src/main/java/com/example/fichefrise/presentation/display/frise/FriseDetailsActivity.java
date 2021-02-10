@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,7 +27,9 @@ import com.example.fichefrise.data.api.model.Frise;
 import com.example.fichefrise.data.api.model.NewEvenementRequest;
 import com.example.fichefrise.data.api.model.Theme;
 import com.example.fichefrise.data.di.FakeDependencyInjection;
+import com.example.fichefrise.data.repository.FicheDisplayRepository;
 import com.example.fichefrise.data.repository.FriseDisplayRepository;
+import com.example.fichefrise.presentation.display.fiche.DetailFicheActivity;
 import com.example.fichefrise.presentation.display.fiche.FichesListActivity;
 import com.example.fichefrise.presentation.display.frise.adapter.EvenementAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -37,6 +40,7 @@ import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 import yuku.ambilwarna.AmbilWarnaDialog;
@@ -70,7 +74,7 @@ public class FriseDetailsActivity extends AppCompatActivity implements AdapterVi
         setupTextViews();
         setupRecyclerview();
 
-        setupFab();
+        setupFabs();
 
     }
 
@@ -102,11 +106,20 @@ public class FriseDetailsActivity extends AppCompatActivity implements AdapterVi
         return super.onOptionsItemSelected(item);
     }
 
-    private void setupFab() {
+    private void setupFabs() {
         FloatingActionButton fab = findViewById(R.id.fab_add_evenement);
         fab.setOnClickListener(v -> {
             createDialog();
         });
+
+        FloatingActionButton fab2 = findViewById(R.id.fabDeleteFrise);
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteFrise();
+            }
+        });
+
     }
 
     private void createDialog(){
@@ -155,6 +168,47 @@ public class FriseDetailsActivity extends AppCompatActivity implements AdapterVi
                 dialog.dismiss();
             }
         });
+    }
+
+    private void deleteFrise(){
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which){
+                    case DialogInterface.BUTTON_POSITIVE:
+                        FriseDisplayRepository repo = FakeDependencyInjection.getFriseDisplayRepository();
+                        CompositeDisposable compositeDisposable = new CompositeDisposable();
+                        compositeDisposable.clear();
+                        compositeDisposable.add(repo.deleteFrise(frise.getFriseId())
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribeWith(new DisposableCompletableObserver(){
+
+                                    @Override
+                                    public void onComplete() {
+                                        setResult(FichesListActivity.FICHES_UPDATED);
+                                        Toast.makeText(FakeDependencyInjection.getApplicationContext(), "Frise supprimée", Toast.LENGTH_SHORT)
+                                                .show();
+                                        finish();
+                                    }
+
+                                    @Override
+                                    public void onError(@NonNull Throwable e) {
+                                        Log.e("ERROR", e.toString());
+                                    }
+                                }));
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(FriseDetailsActivity.this);
+        builder.setMessage("Supprimer la frise ?").setPositiveButton("Oui", dialogClickListener)
+                .setNegativeButton("Non", dialogClickListener).show();
     }
 
     private void saveNewEvenement() {

@@ -8,6 +8,7 @@ import com.example.fichefrise.data.api.model.NewFriseRequest;
 
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -34,4 +35,7 @@ public interface FriseDisplayService {
 
     @PUT("frises/update")
     Single<Frise> createNewEvenement(@Body NewEvenementRequest request);
+
+    @POST("/frises/delete/{id}")
+    Completable deleteFrise(@Path("id") int friseId);
 }
