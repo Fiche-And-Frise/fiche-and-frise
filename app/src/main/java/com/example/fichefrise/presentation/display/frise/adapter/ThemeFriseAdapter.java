@@ -36,7 +36,9 @@ public class ThemeFriseAdapter extends RecyclerView.Adapter<ThemeFriseAdapter.Th
 
     @Override
     public void onBindViewHolder(@NonNull ThemeViewHolder holder, int position) {
-        holder.bind(themeList.get(position));
+        if(themeList.get(position).getListFrises().size() > 0) {
+            holder.bind(themeList.get(position));
+        }
     }
 
     @Override

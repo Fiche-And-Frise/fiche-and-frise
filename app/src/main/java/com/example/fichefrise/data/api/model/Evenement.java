@@ -6,9 +6,6 @@ import java.io.Serializable;
 
 public class Evenement implements Serializable {
 
-    @SerializedName("id")
-    private int evenementId;
-
     @SerializedName("name")
     private String nomEvenement;
 
@@ -18,14 +15,6 @@ public class Evenement implements Serializable {
     public Evenement(String nomEvenement, String dateDebutEvenement) {
         this.nomEvenement = nomEvenement;
         this.dateDebutEvenement = dateDebutEvenement;
-    }
-
-    public int getEvenementId() {
-        return evenementId;
-    }
-
-    public void setEvenementId(int evenementId) {
-        this.evenementId = evenementId;
     }
 
     public String getNomEvenement() {
