@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.fichefrise.R;
 import com.example.fichefrise.data.api.model.Evenement;
+import com.example.fichefrise.data.api.model.Fiche;
 import com.example.fichefrise.data.api.model.Frise;
 import com.example.fichefrise.data.api.model.NewEvenementRequest;
 import com.example.fichefrise.data.api.model.Theme;
@@ -121,22 +122,45 @@ public class CreateEvenementActivity extends AppCompatActivity implements Adapte
     private void setupFab(){
         FloatingActionButton fab = findViewById(R.id.fab_create_evenement);
         fab.setOnClickListener(v -> {
-            newEvenementName = fragmentCreate.getEvenementName();
-            newEvenementDate = fragmentCreate.getEvenementDate();
-            if(newEvenementName.length()>0 && newEvenementDate.length() > 0){
-                Log.i("DATA IS CORRECT", "Here");
-                saveNewEvenement();
-            } else {
-                Toast.makeText(FakeDependencyInjection.getApplicationContext(), "Veuillez renseigner un nom et une date valide", Toast.LENGTH_SHORT)
-                        .show();
-            }
+            saveNewEvenement();
+
         });
     }
 
     private void saveNewEvenement() {
         Log.i("CREATING EVENEMENT", "Beginning : " + selectedEvenementIndex);
-        Evenement newEvenement = new Evenement(newEvenementName, newEvenementDate);
         frise.getListEvenements().remove(frise.getListEvenements().size()-1);
+        Evenement newEvenement;
+        if(viewPager.getCurrentItem() == 0){
+            newEvenementName = fragmentCreate.getEvenementName();
+            newEvenementDate = fragmentCreate.getEvenementDate();
+            if(newEvenementName.length() < 1 || newEvenementDate.length() < 1){
+                Toast.makeText(FakeDependencyInjection.getApplicationContext(), "Veuillez renseigner un nom et une date", Toast.LENGTH_SHORT)
+                        .show();
+                return;
+            }
+           newEvenement = new Evenement(newEvenementName, newEvenementDate);
+        } else {
+            newEvenementDate = fragmentImport.getEvenementDate();
+            if(newEvenementDate.length() < 1){
+                Toast.makeText(FakeDependencyInjection.getApplicationContext(), "Veuillez renseigner une date", Toast.LENGTH_SHORT)
+                        .show();
+                return;
+            }
+            int ficheId = -1, themeId = -1;
+            List<Theme> themeList = FakeDependencyInjection.getAllThemes();
+            for(Theme t : themeList){
+                for(Fiche f : t.getListFiches()) {
+                    if(f.getNomFiche().equals(fragmentImport.getSelectedFiche())) {
+                        ficheId = f.getFicheId();
+                        themeId = t.getThemeId();
+                        newEvenementName = f.getNomFiche();
+                    }
+                }
+            }
+            newEvenement = new Evenement(newEvenementName, newEvenementDate, ficheId, themeId);
+        }
+
         NewEvenementRequest request = new NewEvenementRequest(frise, theme, newEvenement, selectedEvenementIndex);
 
         FriseDisplayRepository repo = FakeDependencyInjection.getFriseDisplayRepository();

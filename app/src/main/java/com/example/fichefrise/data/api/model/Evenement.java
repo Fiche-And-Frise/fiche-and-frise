@@ -12,9 +12,23 @@ public class Evenement implements Serializable {
     @SerializedName("dateDebut")
     private String dateDebutEvenement;
 
+    @SerializedName("ficheId")
+    private int ficheId;
+    @SerializedName("themeId")
+    private int themeId;
+
     public Evenement(String nomEvenement, String dateDebutEvenement) {
         this.nomEvenement = nomEvenement;
         this.dateDebutEvenement = dateDebutEvenement;
+        this.ficheId = -1;
+        this.themeId = -1;
+    }
+
+    public Evenement(String nomEvenement, String dateDebutEvenement, int ficheId, int themeId) {
+        this.nomEvenement = nomEvenement;
+        this.dateDebutEvenement = dateDebutEvenement;
+        this.ficheId = ficheId;
+        this.themeId = themeId;
     }
 
     public String getNomEvenement() {
@@ -31,5 +45,21 @@ public class Evenement implements Serializable {
 
     public void setDateDebutEvenement(String dateDebutEvenement) {
         this.dateDebutEvenement = dateDebutEvenement;
+    }
+
+    public int getFicheId() {
+        return ficheId;
+    }
+
+    public void setFicheId(int ficheId) {
+        this.ficheId = ficheId;
+    }
+
+    public int getThemeId() {
+        return themeId;
+    }
+
+    public void setThemeId(int themeId) {
+        this.themeId = themeId;
     }
 }

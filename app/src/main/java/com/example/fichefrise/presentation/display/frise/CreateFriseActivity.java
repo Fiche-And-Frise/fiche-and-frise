@@ -63,7 +63,7 @@ public class CreateFriseActivity extends AppCompatActivity implements AdapterVie
         endDateEditText = findViewById(R.id.end_edittext);
 
         allThemes = (ArrayList<Theme>) getIntent().getSerializableExtra("allThemes");
-        setupSpinner(allThemes);
+        setupSpinner(allThemes, 0);
         setupAddThemeButton();
 
         FloatingActionButton fab = findViewById(R.id.fabCreateFrise);
@@ -124,7 +124,7 @@ public class CreateFriseActivity extends AppCompatActivity implements AdapterVie
                 newThemeName = newThemeNameEditText.getText().toString();
                 if(newThemeName.length()>0){
                     allThemes.add(new Theme(newThemeName, themeColor));
-                    setupSpinner(allThemes);
+                    setupSpinner(allThemes, allThemes.size()-1);
                 }
                 dialog.dismiss();
             }
@@ -138,7 +138,7 @@ public class CreateFriseActivity extends AppCompatActivity implements AdapterVie
         });
     }
 
-    private void setupSpinner(ArrayList<Theme> allThemes) {
+    private void setupSpinner(ArrayList<Theme> allThemes, int index) {
         themesNames = new ArrayList<>();
         for(Theme t : allThemes){
             this.themesNames.add(t.getNomTheme());
@@ -151,6 +151,7 @@ public class CreateFriseActivity extends AppCompatActivity implements AdapterVie
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         spin.setAdapter(aa);
+        spin.setSelection(index);
     }
 
     @Override

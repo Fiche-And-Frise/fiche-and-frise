@@ -85,6 +85,7 @@ public class FrisesListActivity extends AppCompatActivity implements FriseAction
         friseViewModel.getThemes().observe(this, themes -> {
             allThemes = themes;
             FakeDependencyInjection.setAllFiches(themes);
+            FakeDependencyInjection.setAllThemes(themes);
             themeAdapter.bindFriseViewModelList(themes);
             friseAdapter.bindFriseViewModelList(themes);
         });

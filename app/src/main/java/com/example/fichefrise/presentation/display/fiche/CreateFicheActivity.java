@@ -31,6 +31,7 @@ import com.example.fichefrise.data.repository.FicheDisplayDataRepository;
 import com.example.fichefrise.data.repository.FicheDisplayRepository;
 import com.example.fichefrise.presentation.display.fiche.fragment.CreateFicheFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.IOException;
 import java.net.SocketException;
@@ -51,7 +52,8 @@ public class CreateFicheActivity extends AppCompatActivity implements AdapterVie
     private ArrayList<String> themesNames = new ArrayList<>();
     private AlertDialog.Builder dialogBuilder;
     private AlertDialog dialog;
-    private EditText newThemeNameEditText, newFicheNameEditText;
+    private EditText newThemeNameEditText;
+    private TextInputEditText newFicheNameEditText;
     private Button newThemeSaveButton, newThemeCancelButton;
     private ImageButton colorPickerButton;
     private int themeColor = 0;
@@ -75,7 +77,7 @@ public class CreateFicheActivity extends AppCompatActivity implements AdapterVie
         newFicheNameEditText = findViewById(R.id.edit_fiche_name);
 
         allThemes = (ArrayList<Theme>) getIntent().getSerializableExtra("allThemes");
-        setupSpinner(allThemes);
+        setupSpinner(allThemes, 0);
         setupAddThemeButton();
 
         setupViewPagerAndTabs();
@@ -142,7 +144,7 @@ public class CreateFicheActivity extends AppCompatActivity implements AdapterVie
                 newThemeName = newThemeNameEditText.getText().toString();
                 if(newThemeName.length()>0){
                     allThemes.add(new Theme(newThemeName, themeColor));
-                    setupSpinner(allThemes);
+                    setupSpinner(allThemes, allThemes.size()-1);
                 }
                 dialog.dismiss();
             }
@@ -156,7 +158,7 @@ public class CreateFicheActivity extends AppCompatActivity implements AdapterVie
         });
     }
 
-    private void setupSpinner(ArrayList<Theme> allThemes) {
+    private void setupSpinner(ArrayList<Theme> allThemes, int index) {
         themesNames = new ArrayList<>();
         for(Theme t : allThemes){
             this.themesNames.add(t.getNomTheme());
@@ -169,6 +171,7 @@ public class CreateFicheActivity extends AppCompatActivity implements AdapterVie
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
         spin.setAdapter(aa);
+        spin.setSelection(index);
     }
 
     private void setupViewPagerAndTabs() {

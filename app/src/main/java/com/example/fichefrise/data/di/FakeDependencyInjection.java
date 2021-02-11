@@ -48,6 +48,7 @@ public class FakeDependencyInjection {
     private static ViewModelFactory viewModelFactory;
 
     private static List<Fiche> allFiches;
+    private static List<Theme> allThemes;
 
 
     public static Retrofit getRetrofit() {
@@ -166,5 +167,11 @@ public class FakeDependencyInjection {
             }
             FakeDependencyInjection.allFiches = newFiches;
         }
+    }
+
+    public static List<Theme> getAllThemes(){ return allThemes; }
+
+    public static void setAllThemes(List<Theme> themes) {
+        FakeDependencyInjection.allThemes = themes;
     }
 }

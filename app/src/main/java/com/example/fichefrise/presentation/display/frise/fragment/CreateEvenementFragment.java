@@ -46,7 +46,7 @@ public class CreateEvenementFragment extends Fragment{
     }
 
     public String getName(){
-        return "CREATE";
+        return "Créer";
     }
 
     public String getEvenementDate(){

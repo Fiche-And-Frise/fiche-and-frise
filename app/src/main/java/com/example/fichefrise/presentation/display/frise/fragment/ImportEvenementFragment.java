@@ -14,6 +14,7 @@ import android.widget.AutoCompleteTextView;
 import com.example.fichefrise.R;
 import com.example.fichefrise.data.api.model.Evenement;
 import com.example.fichefrise.data.api.model.Fiche;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ import java.util.List;
 public class ImportEvenementFragment extends Fragment{
 
     private AutoCompleteTextView acTextView;
+    private TextInputEditText dateInput;
     private List<Fiche> fiches;
     private List<String> fichesNames = new ArrayList<>();
 
@@ -52,6 +54,7 @@ public class ImportEvenementFragment extends Fragment{
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_import_evenement, container, false);
         acTextView = view.findViewById(R.id.evenement_auto_complete);
+        dateInput = view.findViewById(R.id.evenement_date_edittext);
         setupAutoCompleteTextView();
 
         return view;
@@ -72,7 +75,15 @@ public class ImportEvenementFragment extends Fragment{
     }
 
     public String getName(){
-        return "IMPORT";
+        return "Importer";
+    }
+
+    public String getSelectedFiche(){
+        return this.acTextView.getText().toString();
+    }
+
+    public String getEvenementDate(){
+        return dateInput.getText().toString();
     }
 
 }

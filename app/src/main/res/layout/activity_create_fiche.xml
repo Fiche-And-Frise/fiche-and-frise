@@ -21,26 +21,37 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <EditText
-        android:id="@+id/edit_fiche_name"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/edit_fiche_name_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Chute du mur de Berlin"
+        android:layout_marginTop="25dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBar"
-        app:layout_constraintBottom_toTopOf="@+id/theme_layout"
-        android:layout_marginTop="15dp"/>
+        app:layout_constraintBottom_toTopOf="@+id/theme_layout">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edit_fiche_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Le nom de la fiche"
+            android:gravity="center"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
         android:id="@+id/theme_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/edit_fiche_name"
+        app:layout_constraintTop_toBottomOf="@+id/edit_fiche_name_layout"
         app:layout_constraintBottom_toTopOf="@+id/view_pager"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="25dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp">
         <TextView
             android:id="@+id/spinner_text_view"
             android:layout_width="wrap_content"
@@ -48,8 +59,9 @@
             android:text="Theme : "/>
         <Spinner
             android:id="@+id/theme_spinner"
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:gravity="center"
             />
 
         <ImageButton
@@ -61,18 +73,6 @@
     </LinearLayout>
 
 
-    <!--<EditText
-        android:id="@+id/edit_theme_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:hint="Guerre froide"
-        android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@+id/edit_fiche_name"
-        app:layout_constraintBottom_toTopOf="@+id/view_pager"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-    -->
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
