@@ -21,6 +21,11 @@ public class EvenementAdapter extends RecyclerView.Adapter<EvenementAdapter.Even
 
     private List<Evenement> viewItemList = Collections.emptyList();
     private final static int RANDOM_EVENT = 999, LAST_EVENT = 995;
+    private EvenementActionInterface evenementActionInterface;
+
+    public EvenementAdapter(EvenementActionInterface evenementActionInterface){
+        this.evenementActionInterface = evenementActionInterface;
+    }
 
     @NonNull
     @Override
@@ -33,7 +38,7 @@ public class EvenementAdapter extends RecyclerView.Adapter<EvenementAdapter.Even
             v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_evenement_recyclerview, parent, false);
         }
-        return new EvenementViewHolder(v);
+        return new EvenementViewHolder(v, this.evenementActionInterface);
     }
 
     @Override
@@ -66,12 +71,15 @@ public class EvenementAdapter extends RecyclerView.Adapter<EvenementAdapter.Even
         private TextView dateTextView, nameTextView;
         private View view;
         private Evenement evenementViewItem;
+        private EvenementActionInterface evenementActionInterface;
 
-        public EvenementViewHolder(@NonNull View itemView) {
+        public EvenementViewHolder(@NonNull View itemView, EvenementActionInterface evenementActionInterface) {
             super(itemView);
             view = itemView;
             dateTextView = view.findViewById(R.id.date_evenement_textview);
             nameTextView = view.findViewById(R.id.name_evenement_textview);
+            dateTextView.setOnClickListener( v -> evenementActionInterface.onEvenementClicked(evenementViewItem));
+            nameTextView.setOnClickListener( v -> evenementActionInterface.onEvenementClicked(evenementViewItem));
         }
 
         public void bind(Evenement evenement){

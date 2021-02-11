@@ -4,39 +4,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/details_evenement_name_edittext"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nouvel évènement"
-        android:textSize="24sp"
-        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"/>
-
-    <TextView
-        android:text="Indiquer le nom et la date de votre évènement"
-        android:id="@+id/indications_textview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginEnd="25dp"
-        app:layout_constraintTop_toBottomOf="@id/textView"
-        />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/new_evenement_name_edittext"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginTop="25dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:layout_constraintTop_toBottomOf="@id/indications_textview"
         >
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/evenement_name_edittext"
@@ -46,14 +23,14 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/new_evenement_date_edittext"
+        android:id="@+id/details_evenement_date_edittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginTop="15dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:layout_constraintTop_toBottomOf="@id/new_evenement_name_edittext"
+        app:layout_constraintTop_toBottomOf="@id/details_evenement_name_edittext"
         >
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/evenement_date_edittext"
@@ -62,48 +39,36 @@
             android:hint="La date de l'évènement"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:text="A la suite de quel événement souhaitez vous créer ce nouvel événement"
-        android:id="@+id/indicationsBis_textview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="25dp"
-        android:layout_marginEnd="25dp"
-        app:layout_constraintTop_toBottomOf="@id/new_evenement_date_edittext"
-        />
-
-    <Spinner
-        android:id="@+id/evenement_spinner"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/indicationsBis_textview"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
-        />
-
     <Button
-        android:id="@+id/new_evenement_validate_button"
+        android:id="@+id/evenement_update_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Valider"
+        android:text="Modifier"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/new_evenement_cancel_button"
-        app:layout_constraintEnd_toStartOf="@+id/new_evenement_cancel_button"
+        app:layout_constraintBottom_toBottomOf="@+id/evenement_cancel_button"
+        app:layout_constraintEnd_toStartOf="@+id/evenement_cancel_button"
         android:layout_marginEnd="15dp"/>
 
     <Button
-        android:id="@+id/new_evenement_cancel_button"
+        android:id="@+id/evenement_cancel_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Annuler"
+        android:text="Fermer"
         android:textSize="16sp"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="15dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="25dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/evenement_spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/details_evenement_date_edittext" />
 
+    <Button
+        android:id="@+id/evenement_validate_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Valider"
+        android:visibility="invisible"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/evenement_cancel_button"
+        app:layout_constraintEnd_toStartOf="@+id/evenement_cancel_button"
+        android:layout_marginEnd="15dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

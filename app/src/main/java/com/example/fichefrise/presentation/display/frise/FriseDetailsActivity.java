@@ -32,6 +32,7 @@ import com.example.fichefrise.data.repository.FicheDisplayRepository;
 import com.example.fichefrise.data.repository.FriseDisplayRepository;
 import com.example.fichefrise.presentation.display.fiche.DetailFicheActivity;
 import com.example.fichefrise.presentation.display.fiche.FichesListActivity;
+import com.example.fichefrise.presentation.display.frise.adapter.EvenementActionInterface;
 import com.example.fichefrise.presentation.display.frise.adapter.EvenementAdapter;
 import com.example.fichefrise.presentation.display.frise.fragment.CreateEvenementFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -49,7 +50,7 @@ import yuku.ambilwarna.AmbilWarnaDialog;
 
 import static com.example.fichefrise.presentation.display.fiche.FichesListActivity.FICHES_UPDATED;
 
-public class FriseDetailsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class FriseDetailsActivity extends AppCompatActivity implements EvenementActionInterface {
 
     public static final int FRISE_UPDATED = 456;
     private Frise frise;
@@ -84,7 +85,7 @@ public class FriseDetailsActivity extends AppCompatActivity implements AdapterVi
     private void setupRecyclerview() {
         recyclerView = findViewById(R.id.evenements_recyclerview);
         layoutManager = new LinearLayoutManager(this);
-        evenementAdapter = new EvenementAdapter();
+        evenementAdapter = new EvenementAdapter(this);
         evenementAdapter.bindViewModelList(frise.getListEvenements());
         recyclerView.setAdapter(evenementAdapter);
         recyclerView.setLayoutManager(layoutManager);
@@ -112,7 +113,6 @@ public class FriseDetailsActivity extends AppCompatActivity implements AdapterVi
     private void setupFabs() {
         FloatingActionButton fab = findViewById(R.id.fab_add_evenement);
         fab.setOnClickListener(v -> {
-            //createDialog();
             Intent i = new Intent(FriseDetailsActivity.this, CreateEvenementActivity.class);
             i.putExtra("frise", frise);
             i.putExtra("theme", theme);
@@ -127,54 +127,6 @@ public class FriseDetailsActivity extends AppCompatActivity implements AdapterVi
             }
         });
 
-    }
-
-    private void createDialog(){
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(FriseDetailsActivity.this);
-        final View evenementPopupView = getLayoutInflater().inflate(R.layout.evenement_popup, null);
-        TextInputEditText newEvenementNameEditText = evenementPopupView.findViewById(R.id.evenement_name_edittext);
-        TextInputEditText newEvenementDateEditText = evenementPopupView.findViewById(R.id.evenement_date_edittext);
-        Button newEvenementSaveButton = evenementPopupView.findViewById(R.id.new_evenement_validate_button);
-        Button newEvenementCancelButton = evenementPopupView.findViewById(R.id.new_evenement_cancel_button);
-        spin = evenementPopupView.findViewById(R.id.evenement_spinner);
-        setupSpinner(frise.getListEvenements());
-
-        dialogBuilder.setView(evenementPopupView);
-        AlertDialog dialog = dialogBuilder.create();
-        dialog.show();
-        newEvenementSaveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.i("ON CLICK", "Here");
-                newEvenementName = newEvenementNameEditText.getText().toString();
-                newEvenementDate = "";
-                try {
-                    Log.i("ON CLICK", "Try here");
-                    newEvenementDate = newEvenementDateEditText.getText().toString();
-                } catch (Exception e){
-                    Toast.makeText(FakeDependencyInjection.getApplicationContext(), "Veuillez entrer une date valide", Toast.LENGTH_SHORT)
-                            .show();
-                    return;
-                }
-                Log.i("DATA IS CORRECT", "Before validation");
-                if(newEvenementName.length()>0 && newEvenementDate.length() > 0){
-                    Log.i("DATA IS CORRECT", "Here");
-                    saveNewEvenement();
-                    dialog.dismiss();
-                } else {
-                    Toast.makeText(FakeDependencyInjection.getApplicationContext(), "Veuillez renseigner un nom et une date valide", Toast.LENGTH_SHORT)
-                            .show();
-                }
-
-            }
-        });
-
-        newEvenementCancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
     }
 
     private void deleteFrise(){
@@ -218,11 +170,67 @@ public class FriseDetailsActivity extends AppCompatActivity implements AdapterVi
                 .setNegativeButton("Non", dialogClickListener).show();
     }
 
-    private void saveNewEvenement() {
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == FRISE_UPDATED){
+            frise = (Frise) data.getSerializableExtra("frise");
+            setupRecyclerview();
+        }
+    }
+
+    @Override
+    public void onEvenementClicked(Evenement evenement) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(FriseDetailsActivity.this);
+        final View evenementPopupView = getLayoutInflater().inflate(R.layout.evenement_popup, null);
+        TextInputEditText evenementNameEditText = evenementPopupView.findViewById(R.id.evenement_name_edittext);
+        evenementNameEditText.setEnabled(false);
+        evenementNameEditText.setText(evenement.getNomEvenement());
+
+        TextInputEditText evenementDateEditText = evenementPopupView.findViewById(R.id.evenement_date_edittext);
+        evenementDateEditText.setEnabled(false);
+        evenementDateEditText.setText(evenement.getDateDebutEvenement());
+        Button evenementUpdateButton = evenementPopupView.findViewById(R.id.evenement_update_button);
+        Button evenementCancelButton = evenementPopupView.findViewById(R.id.evenement_cancel_button);
+        Button evenementValidateButton = evenementPopupView.findViewById(R.id.evenement_validate_button);
+
+        dialogBuilder.setView(evenementPopupView);
+        AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
+        evenementUpdateButton.setOnClickListener(v -> {
+            evenementNameEditText.setEnabled(true);
+            evenementDateEditText.setEnabled(true);
+            evenementUpdateButton.setVisibility(View.GONE);
+            evenementValidateButton.setVisibility(View.VISIBLE);
+        });
+
+        evenementCancelButton.setOnClickListener(v -> dialog.dismiss());
+
+        evenementValidateButton.setOnClickListener( v -> {
+            evenementValidateButton.setEnabled(false);
+            String newName = evenementNameEditText.getText().toString();
+            String newDate = evenementDateEditText.getText().toString();
+            if(newName.length() < 1 || newDate.length() < 1){
+                Toast.makeText(FakeDependencyInjection.getApplicationContext(), "Veuillez entrer un nom et une date", Toast.LENGTH_SHORT)
+                        .show();
+                evenementValidateButton.setEnabled(true);
+            } else {
+                updateEvenement(evenement, newName, newDate);
+                dialog.dismiss();
+            }
+        });
+    }
+
+    private void updateEvenement(Evenement evenement, String name, String date) {
         Log.i("CREATING EVENEMENT", "Beginning");
-        Evenement newEvenement = new Evenement(newEvenementName, newEvenementDate);
         frise.getListEvenements().remove(frise.getListEvenements().size()-1);
-        NewEvenementRequest request = new NewEvenementRequest(frise, theme, newEvenement, selectedEvenementIndex);
+        selectedEvenementIndex = frise.getListEvenements().indexOf(evenement);
+        frise.getListEvenements().remove(evenement);
+        evenement.setNomEvenement(name);
+        evenement.setDateDebutEvenement(date);
+
+        NewEvenementRequest request = new NewEvenementRequest(frise, theme, evenement, selectedEvenementIndex);
 
         FriseDisplayRepository repo = FakeDependencyInjection.getFriseDisplayRepository();
 
@@ -235,10 +243,10 @@ public class FriseDetailsActivity extends AppCompatActivity implements AdapterVi
 
                     @Override
                     public void onSuccess(@NonNull Frise responseFrise) {
-                        Log.i("CREATING EVENEMENT", "Ca s'est bien passé !");
+                        Log.i("UPDATING EVENEMENT", "Ca s'est bien passé !");
                         frise = responseFrise;
                         setupRecyclerview();
-                        Toast.makeText(FakeDependencyInjection.getApplicationContext(), "Evènement créé", Toast.LENGTH_SHORT)
+                        Toast.makeText(FakeDependencyInjection.getApplicationContext(), "Evènement mis à jour", Toast.LENGTH_SHORT)
                                 .show();
                         setResult(FICHES_UPDATED);
                     }
@@ -246,45 +254,9 @@ public class FriseDetailsActivity extends AppCompatActivity implements AdapterVi
                     @Override
                     public void onError(@NonNull Throwable e) {
                         Log.e("CREATING FRISE ERROR", e.toString());
-                        Toast.makeText(FakeDependencyInjection.getApplicationContext(), "Erreur lors de la création de l'évènement", Toast.LENGTH_SHORT)
+                        Toast.makeText(FakeDependencyInjection.getApplicationContext(), "Erreur lors de la mise à jour de l'évènement", Toast.LENGTH_SHORT)
                                 .show();
                     }
                 }));
-    }
-
-    private void setupSpinner(List<Evenement> allEvenements) {
-        evenementsNames = new ArrayList<>();
-        evenementsNames.add("Il s'agit du premier événement");
-        for(Evenement e : allEvenements){
-            if(e != null)
-                this.evenementsNames.add(e.getNomEvenement());
-        }
-
-        spin.setOnItemSelectedListener(this);
-
-        //Creating the ArrayAdapter instance having the evenements list
-        ArrayAdapter aa = new ArrayAdapter(this,android.R.layout.simple_spinner_item,this.evenementsNames);
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //Setting the ArrayAdapter data on the Spinner
-        spin.setAdapter(aa);
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            selectedEvenementIndex = position;
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == FRISE_UPDATED){
-            frise = (Frise) data.getSerializableExtra("frise");
-            setupRecyclerview();
-        }
     }
 }
