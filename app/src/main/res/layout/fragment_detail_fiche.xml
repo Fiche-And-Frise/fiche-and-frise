@@ -17,7 +17,6 @@
         android:background="@drawable/background_text_view"
         android:gravity="start|top"
         android:lines="12"
-        android:hint="Test"
         android:padding="15dp"
         />
 

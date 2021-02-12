@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -53,9 +54,11 @@ public class FicheAdapter extends RecyclerView.Adapter<FicheAdapter.FicheViewHol
         for(Theme t : allThemes){
             for(Fiche f : t.getListFiches()){
                 f.setThemeId(t.getThemeId());
+                f.setColor(t.getColor());
                 this.viewItemList.add(f);
             }
         }
+        Collections.sort(viewItemList, Fiche.comparator);
         notifyDataSetChanged();
     }
 
@@ -64,6 +67,7 @@ public class FicheAdapter extends RecyclerView.Adapter<FicheAdapter.FicheViewHol
         private TextView ficheNameTextView;
         private View v;
         private Fiche ficheViewItem;
+        private ImageView icon;
         private FicheActionInterface ficheActionInterface;
 
         public FicheViewHolder(@NonNull View itemView, final FicheActionInterface ficheActionInterface) {
@@ -71,6 +75,7 @@ public class FicheAdapter extends RecyclerView.Adapter<FicheAdapter.FicheViewHol
             this.v = itemView;
             this.ficheActionInterface = ficheActionInterface;
             this.ficheNameTextView =itemView.findViewById(R.id.ficheNameTextView);
+            this.icon = itemView.findViewById(R.id.fiche_icon);
             this.ficheNameTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -80,6 +85,7 @@ public class FicheAdapter extends RecyclerView.Adapter<FicheAdapter.FicheViewHol
         }
 
         public void bind(Fiche fiche){
+            this.icon.setColorFilter(fiche.getColor());
             this.ficheViewItem = fiche;
             this.ficheNameTextView.setText(ficheViewItem.getNomFiche());
         }

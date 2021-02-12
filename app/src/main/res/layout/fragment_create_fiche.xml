@@ -18,7 +18,6 @@
         android:gravity="start|top"
         android:inputType="textMultiLine"
         android:lines="12"
-        android:text="Test"
         android:padding="15dp"
         />
 

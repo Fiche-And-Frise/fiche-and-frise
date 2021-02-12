@@ -5,8 +5,9 @@ import androidx.annotation.NonNull;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
-public class Fiche implements Serializable {
+public class Fiche implements Serializable{
 
     @SerializedName("id")
     private int ficheId;
@@ -21,6 +22,7 @@ public class Fiche implements Serializable {
     private String verso;
 
     private int themeId;
+    private int color;
 
     public Fiche(String nomFiche, String recto, String verso) {
         this.nomFiche = nomFiche;
@@ -68,6 +70,14 @@ public class Fiche implements Serializable {
         this.themeId = themeId;
     }
 
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -75,4 +85,6 @@ public class Fiche implements Serializable {
                 "\nNom : " + this.getNomFiche();
         return response;
     }
+
+    public static Comparator<Fiche> comparator = (f1, f2) -> f1.getNomFiche().compareTo(f2.getNomFiche());
 }

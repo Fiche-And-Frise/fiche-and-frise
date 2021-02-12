@@ -4,6 +4,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -53,9 +54,11 @@ public class FriseAdapter extends RecyclerView.Adapter<FriseAdapter.FriseViewHol
             for(Theme t : allThemes){
                 for(Frise f : t.getListFrises()){
                     f.setCurrentTheme(t.getThemeId());
+                    f.setColor(t.getColor());
                     this.viewItemList.add(f);
                 }
             }
+            Collections.sort(viewItemList, Frise.comparator);
             notifyDataSetChanged();
     }
 
@@ -65,12 +68,14 @@ public class FriseAdapter extends RecyclerView.Adapter<FriseAdapter.FriseViewHol
         private View v;
         private Frise friseViewItem;
         private FriseActionInterface friseActionInterface;
+        private ImageView icon;
 
         public FriseViewHolder(@NonNull View itemView, final FriseActionInterface friseActionInterface) {
             super(itemView);
             this.v = itemView;
             this.friseActionInterface = friseActionInterface;
             this.friseNameTextView = itemView.findViewById(R.id.friseNameTextView);
+            this.icon = itemView.findViewById(R.id.frise_icon);
             this.friseNameTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -82,6 +87,7 @@ public class FriseAdapter extends RecyclerView.Adapter<FriseAdapter.FriseViewHol
         public void bind(Frise frise){
             this.friseViewItem = frise;
             this.friseNameTextView.setText(friseViewItem.getNomFrise());
+            this.icon.setColorFilter(frise.getColor());
         }
     }
 }

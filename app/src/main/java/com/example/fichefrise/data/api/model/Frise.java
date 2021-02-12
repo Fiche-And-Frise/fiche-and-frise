@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Frise implements Serializable {
@@ -21,6 +22,8 @@ public class Frise implements Serializable {
 
     @SerializedName("evenements")
     private List<Evenement> listEvenements;
+
+    private int color;
 
     public Frise(String nomFrise, int dateDebutFrise, int dateFinFrise) {
         this.nomFrise = nomFrise;
@@ -78,4 +81,15 @@ public class Frise implements Serializable {
     public void setCurrentTheme(int currentTheme) {
         this.currentTheme = currentTheme;
     }
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
+    public static Comparator<Frise> comparator = (f1, f2) -> f1.getNomFrise().compareTo(f2.getNomFrise());
+
+
 }
