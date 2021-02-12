@@ -46,4 +46,8 @@ public class FriseDisplayRemoteDataSource {
     public Completable deleteFrise(int friseId) {
         return this.friseDisplayService.deleteFrise(friseId);
     }
+
+    public Single<Frise> deleteEvenement(NewFriseRequest request) {
+        return this.friseDisplayService.deleteEvenement(request);
+    }
 }

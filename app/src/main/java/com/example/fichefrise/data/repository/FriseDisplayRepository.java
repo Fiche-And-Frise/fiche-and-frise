@@ -25,4 +25,6 @@ public interface FriseDisplayRepository {
     Single<Frise> createNewEvenement(NewEvenementRequest request);
 
     Completable deleteFrise(int friseId);
+
+    Single<Frise> deleteEvenement(NewFriseRequest request);
 }

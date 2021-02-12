@@ -53,4 +53,9 @@ public class FriseDisplayDataRepository implements FriseDisplayRepository{
     public Completable deleteFrise(int friseId) {
         return this.friseDisplayRemoteDataSource.deleteFrise(friseId);
     }
+
+    @Override
+    public Single<Frise> deleteEvenement(NewFriseRequest request) {
+        return this.friseDisplayRemoteDataSource.deleteEvenement(request);
+    }
 }

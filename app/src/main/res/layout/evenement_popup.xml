@@ -45,15 +45,15 @@
         android:layout_height="wrap_content"
         android:text="Modifier"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/evenement_cancel_button"
-        app:layout_constraintEnd_toStartOf="@+id/evenement_cancel_button"
+        app:layout_constraintBottom_toBottomOf="@+id/evenement_delete_button"
+        app:layout_constraintEnd_toStartOf="@+id/evenement_delete_button"
         android:layout_marginEnd="15dp"/>
 
     <Button
-        android:id="@+id/evenement_cancel_button"
+        android:id="@+id/evenement_delete_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Fermer"
+        android:text="Supprimer"
         android:textSize="16sp"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="15dp"
@@ -68,7 +68,7 @@
         android:text="Valider"
         android:visibility="invisible"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@+id/evenement_cancel_button"
-        app:layout_constraintEnd_toStartOf="@+id/evenement_cancel_button"
+        app:layout_constraintBottom_toBottomOf="@+id/evenement_delete_button"
+        app:layout_constraintEnd_toStartOf="@+id/evenement_delete_button"
         android:layout_marginEnd="15dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

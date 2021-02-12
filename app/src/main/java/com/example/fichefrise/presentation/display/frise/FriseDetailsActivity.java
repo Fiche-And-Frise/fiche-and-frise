@@ -24,8 +24,10 @@ import android.widget.Toast;
 
 import com.example.fichefrise.R;
 import com.example.fichefrise.data.api.model.Evenement;
+import com.example.fichefrise.data.api.model.Fiche;
 import com.example.fichefrise.data.api.model.Frise;
 import com.example.fichefrise.data.api.model.NewEvenementRequest;
+import com.example.fichefrise.data.api.model.NewFriseRequest;
 import com.example.fichefrise.data.api.model.Theme;
 import com.example.fichefrise.data.di.FakeDependencyInjection;
 import com.example.fichefrise.data.repository.FicheDisplayRepository;
@@ -182,6 +184,30 @@ public class FriseDetailsActivity extends AppCompatActivity implements Evenement
 
     @Override
     public void onEvenementClicked(Evenement evenement) {
+        selectedEvenementIndex = frise.getListEvenements().indexOf(evenement);
+        if(evenement.getFicheId() != -1){
+            Fiche fiche = null;
+            Theme currentTheme = null;
+            List<Fiche> allFiches = FakeDependencyInjection.getAllFiches();
+            for(Fiche f : allFiches){
+                if(f.getFicheId() == evenement.getFicheId()){
+                    fiche = f;
+                    break;
+                }
+            }
+            List<Theme> allThemes = FakeDependencyInjection.getAllThemes();
+            for(Theme t : allThemes){
+                if(t.getThemeId() == evenement.getThemeId()){
+                    currentTheme = t;
+                    break;
+                }
+            }
+            Intent i = new Intent(FriseDetailsActivity.this, DetailFicheActivity.class);
+            i.putExtra("fiche", fiche);
+            i.putExtra("theme", currentTheme);
+            startActivityForResult(i, 777);
+            return;
+        }
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(FriseDetailsActivity.this);
         final View evenementPopupView = getLayoutInflater().inflate(R.layout.evenement_popup, null);
         TextInputEditText evenementNameEditText = evenementPopupView.findViewById(R.id.evenement_name_edittext);
@@ -192,7 +218,7 @@ public class FriseDetailsActivity extends AppCompatActivity implements Evenement
         evenementDateEditText.setEnabled(false);
         evenementDateEditText.setText(evenement.getDateDebutEvenement());
         Button evenementUpdateButton = evenementPopupView.findViewById(R.id.evenement_update_button);
-        Button evenementCancelButton = evenementPopupView.findViewById(R.id.evenement_cancel_button);
+        Button evenementDeleteButton = evenementPopupView.findViewById(R.id.evenement_delete_button);
         Button evenementValidateButton = evenementPopupView.findViewById(R.id.evenement_validate_button);
 
         dialogBuilder.setView(evenementPopupView);
@@ -205,7 +231,9 @@ public class FriseDetailsActivity extends AppCompatActivity implements Evenement
             evenementValidateButton.setVisibility(View.VISIBLE);
         });
 
-        evenementCancelButton.setOnClickListener(v -> dialog.dismiss());
+        evenementDeleteButton.setOnClickListener(v -> {
+            deleteEvenement(evenement);
+        });
 
         evenementValidateButton.setOnClickListener( v -> {
             evenementValidateButton.setEnabled(false);
@@ -222,10 +250,49 @@ public class FriseDetailsActivity extends AppCompatActivity implements Evenement
         });
     }
 
+    private void deleteEvenement(Evenement evenement) {
+        List<Theme> allThemes = FakeDependencyInjection.getAllThemes();
+        Theme currentTheme = null;
+        for(Theme t : allThemes){
+            if(t.getThemeId() == theme){
+                currentTheme = t;
+                break;
+            }
+        }
+        frise.getListEvenements().remove(frise.getListEvenements().size()-1);
+        frise.getListEvenements().remove(evenement);
+        NewFriseRequest request = new NewFriseRequest(frise, currentTheme);
+        FriseDisplayRepository repo = FakeDependencyInjection.getFriseDisplayRepository();
+
+        CompositeDisposable compositeDisposable = new CompositeDisposable();
+        compositeDisposable.clear();
+        compositeDisposable.add(repo.deleteEvenement(request)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<Frise>(){
+
+                    @Override
+                    public void onSuccess(@NonNull Frise responseFrise) {
+                        Log.i("EVENEMENT DELETED", "Ca s'est bien passé !");
+                        frise = responseFrise;
+                        setupRecyclerview();
+                        Toast.makeText(FakeDependencyInjection.getApplicationContext(), "Evènement supprimé", Toast.LENGTH_SHORT)
+                                .show();
+                        setResult(FICHES_UPDATED);
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        Log.e("DELETE EVENEMENT ERROR", e.toString());
+                        Toast.makeText(FakeDependencyInjection.getApplicationContext(), "Erreur lors de la suppression de l'évènement", Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                }));
+    }
+
     private void updateEvenement(Evenement evenement, String name, String date) {
         Log.i("CREATING EVENEMENT", "Beginning");
         frise.getListEvenements().remove(frise.getListEvenements().size()-1);
-        selectedEvenementIndex = frise.getListEvenements().indexOf(evenement);
         frise.getListEvenements().remove(evenement);
         evenement.setNomEvenement(name);
         evenement.setDateDebutEvenement(date);

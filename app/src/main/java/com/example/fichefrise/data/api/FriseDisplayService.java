@@ -33,9 +33,12 @@ public interface FriseDisplayService {
     @POST("frises/new")
     Single<Frise> createNewFrise(@Body NewFriseRequest request);
 
-    @PUT("frises/update")
+    @PUT("frises/update/evenement")
     Single<Frise> createNewEvenement(@Body NewEvenementRequest request);
 
     @POST("/frises/delete/{id}")
     Completable deleteFrise(@Path("id") int friseId);
+
+    @POST("/frises/delete/evenement")
+    Single<Frise> deleteEvenement(@Body NewFriseRequest request);
 }
