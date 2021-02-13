@@ -36,9 +36,7 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ThemeViewHol
 
     @Override
     public void onBindViewHolder(@NonNull ThemeViewHolder holder, int position) {
-        if(themeList.get(position).getListFiches().size() > 0) {
-            holder.bind(themeList.get(position));
-        }
+        holder.bind(themeList.get(position), themeList.get(position).getListFiches().size() > 0);
     }
 
     @Override
@@ -46,8 +44,9 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ThemeViewHol
         return this.themeList.size();
     }
 
-    public void bindFicheViewModelList(List<Theme> themeListStatic) {
+    public void bindThemeViewModelList(List<Theme> themeListStatic) {
         this.themeList = themeListStatic;
+        Collections.sort(themeList, Theme.comparator);
         notifyDataSetChanged();
     }
 
@@ -68,12 +67,21 @@ public class ThemeAdapter extends RecyclerView.Adapter<ThemeAdapter.ThemeViewHol
             this.themeNameTextView =itemView.findViewById(R.id.theme_textView);
         }
 
-        public void bind(Theme item){
+        public void bind(Theme item, Boolean visible){
+            if(!visible){
+                this.themeNameTextView.setVisibility(View.GONE);
+                if(ficheRecyclerView != null){
+                    ficheRecyclerView.setVisibility(View.GONE);
+                }
+                return;
+            }
             this.theme = item;
             this.themeNameTextView.setText(theme.getNomTheme());
             ficheRecyclerView = v.findViewById(R.id.fiches_recyclerview);
             layoutManager = new LinearLayoutManager(v.getContext());
             ficheAdapter = new FicheAdapter(this.ficheActionInterface);
+            this.themeNameTextView.setVisibility(View.VISIBLE);
+            ficheRecyclerView.setVisibility(View.VISIBLE);
 
             FicheToViewModelMapper mapper = new FicheToViewModelMapper();
 

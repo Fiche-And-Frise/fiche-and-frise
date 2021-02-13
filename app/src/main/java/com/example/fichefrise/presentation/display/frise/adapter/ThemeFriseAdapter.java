@@ -36,9 +36,7 @@ public class ThemeFriseAdapter extends RecyclerView.Adapter<ThemeFriseAdapter.Th
 
     @Override
     public void onBindViewHolder(@NonNull ThemeViewHolder holder, int position) {
-        if(themeList.get(position).getListFrises().size() > 0) {
-            holder.bind(themeList.get(position));
-        }
+        holder.bind(themeList.get(position), themeList.get(position).getListFrises().size() > 0);
     }
 
     @Override
@@ -46,8 +44,9 @@ public class ThemeFriseAdapter extends RecyclerView.Adapter<ThemeFriseAdapter.Th
         return this.themeList.size();
     }
 
-    public void bindFriseViewModelList(List<Theme> themeListStatic) {
+    public void bindThemeViewModelList(List<Theme> themeListStatic) {
         this.themeList = themeListStatic;
+        Collections.sort(themeList, Theme.comparator);
         notifyDataSetChanged();
     }
 
@@ -68,7 +67,14 @@ public class ThemeFriseAdapter extends RecyclerView.Adapter<ThemeFriseAdapter.Th
             this.themeNameTextView =itemView.findViewById(R.id.theme_textView);
         }
 
-        public void bind(Theme item){
+        public void bind(Theme item, Boolean visible){
+            if(!visible){
+                this.themeNameTextView.setVisibility(View.GONE);
+                if(friseRecyclerView != null){
+                    friseRecyclerView.setVisibility(View.GONE);
+                }
+                return;
+            }
             this.theme = item;
             this.themeNameTextView.setText(theme.getNomTheme());
             friseRecyclerView = v.findViewById(R.id.frises_recyclerview);

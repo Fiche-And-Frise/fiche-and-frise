@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fichefrise.R;
 import com.example.fichefrise.data.api.model.Evenement;
+import com.example.fichefrise.data.api.model.Theme;
+import com.example.fichefrise.data.di.FakeDependencyInjection;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -61,7 +63,18 @@ public class EvenementAdapter extends RecyclerView.Adapter<EvenementAdapter.Even
 
     public void bindViewModelList(List<Evenement> evenements){
         this.viewItemList = new ArrayList<>();
-        this.viewItemList = evenements;
+        List<Theme> allThemes = FakeDependencyInjection.getAllThemes();
+        for(Evenement e : evenements){
+            if(e.getThemeId() != -1){
+                for(Theme t : allThemes){
+                    if(t.getThemeId() == e.getThemeId()){
+                        e.setColor(t.getColor());
+                        break;
+                    }
+                }
+            }
+            viewItemList.add(e);
+        }
         this.viewItemList.add(null);
         notifyDataSetChanged();
     }
@@ -87,6 +100,9 @@ public class EvenementAdapter extends RecyclerView.Adapter<EvenementAdapter.Even
                 evenementViewItem = evenement;
                 dateTextView.setText(evenement.getDateDebutEvenement());
                 nameTextView.setText(evenement.getNomEvenement());
+                if(evenement.getColor() != 0) {
+                    nameTextView.setTextColor(evenement.getColor());
+                }
             }
         }
     }

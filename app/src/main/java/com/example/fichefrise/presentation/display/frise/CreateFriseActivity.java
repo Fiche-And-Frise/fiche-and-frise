@@ -46,7 +46,7 @@ public class CreateFriseActivity extends AppCompatActivity implements AdapterVie
     private AlertDialog dialog;
     private EditText newThemeNameEditText, newFriseNameEditText, beginDateEditText, endDateEditText;
     private ImageButton colorPickerButton;
-    private int themeColor = 0;
+    private int themeColor = -16711423;
     private String newThemeName = "";
     private Theme selectedTheme;
 

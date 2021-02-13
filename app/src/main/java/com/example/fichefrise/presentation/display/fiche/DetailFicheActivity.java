@@ -119,6 +119,7 @@ public class DetailFicheActivity extends AppCompatActivity {
         // back button
         if (id == android.R.id.home) {
             Log.i("Item selected", "On est passé là !");
+            setResult(FichesListActivity.FICHES_UPDATED);
             finish();
             overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             return true;

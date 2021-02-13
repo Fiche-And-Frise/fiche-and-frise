@@ -83,7 +83,7 @@ public class FichesListActivity extends AppCompatActivity implements FicheAction
         ficheViewModel.getAllThemes();
         ficheViewModel.getThemes().observe(this, themes -> {
             allThemes = themes;
-            themeAdapter.bindFicheViewModelList(themes);
+            themeAdapter.bindThemeViewModelList(themes);
             ficheAdapter.bindFicheViewModelList(themes);
             });
         Log.i("DANS LE REGISTER", "On a terminé !");

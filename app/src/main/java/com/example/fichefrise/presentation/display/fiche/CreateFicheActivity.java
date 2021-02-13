@@ -56,7 +56,7 @@ public class CreateFicheActivity extends AppCompatActivity implements AdapterVie
     private TextInputEditText newFicheNameEditText;
     private Button newThemeSaveButton, newThemeCancelButton;
     private ImageButton colorPickerButton;
-    private int themeColor = 0;
+    private int themeColor = -16711423;
     private String newThemeName = "";
     private CreateFicheFragment fragmentRecto, fragmentVerso;
     private Theme selectedTheme;

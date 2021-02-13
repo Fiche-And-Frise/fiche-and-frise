@@ -17,11 +17,14 @@ public class Evenement implements Serializable {
     @SerializedName("themeId")
     private int themeId;
 
+    private int color;
+
     public Evenement(String nomEvenement, String dateDebutEvenement) {
         this.nomEvenement = nomEvenement;
         this.dateDebutEvenement = dateDebutEvenement;
         this.ficheId = -1;
         this.themeId = -1;
+        this.color = 0;
     }
 
     public Evenement(String nomEvenement, String dateDebutEvenement, int ficheId, int themeId) {
@@ -29,6 +32,7 @@ public class Evenement implements Serializable {
         this.dateDebutEvenement = dateDebutEvenement;
         this.ficheId = ficheId;
         this.themeId = themeId;
+        this.color = 0;
     }
 
     public String getNomEvenement() {
@@ -61,5 +65,13 @@ public class Evenement implements Serializable {
 
     public void setThemeId(int themeId) {
         this.themeId = themeId;
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
     }
 }

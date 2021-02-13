@@ -86,7 +86,7 @@ public class FrisesListActivity extends AppCompatActivity implements FriseAction
             allThemes = themes;
             FakeDependencyInjection.setAllFiches(themes);
             FakeDependencyInjection.setAllThemes(themes);
-            themeAdapter.bindFriseViewModelList(themes);
+            themeAdapter.bindThemeViewModelList(themes);
             friseAdapter.bindFriseViewModelList(themes);
         });
     }

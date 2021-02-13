@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Theme implements Serializable {
@@ -70,4 +71,7 @@ public class Theme implements Serializable {
     public void setListFrises(List<Frise> listFrises) {
         this.listFrises = listFrises;
     }
+
+    public static Comparator<Theme> comparator = (t1, t2) -> t1.getNomTheme().compareTo(t2.getNomTheme());
+
 }
