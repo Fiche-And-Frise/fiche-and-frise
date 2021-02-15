@@ -9,6 +9,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -53,6 +54,7 @@ public class CreateEvenementActivity extends AppCompatActivity implements Adapte
     private CreateEvenementFragment fragmentCreate;
     private ImportEvenementFragment fragmentImport;
     private Spinner spin;
+    private long mLastClickTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,14 +125,18 @@ public class CreateEvenementActivity extends AppCompatActivity implements Adapte
     private void setupFab(){
         FloatingActionButton fab = findViewById(R.id.fab_create_evenement);
         fab.setOnClickListener(v -> {
+            // mis-clicking prevention, using threshold of 1000 ms
+            if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                return;
+            }
+            mLastClickTime = SystemClock.elapsedRealtime();
             saveNewEvenement();
-
         });
     }
 
     private void saveNewEvenement() {
         Log.i("CREATING EVENEMENT", "Beginning : " + selectedEvenementIndex);
-        frise.getListEvenements().remove(frise.getListEvenements().size()-1);
+        //frise.getListEvenements().remove(frise.getListEvenements().size()-1);
         Evenement newEvenement;
         if(viewPager.getCurrentItem() == 0){
             newEvenementName = fragmentCreate.getEvenementName();

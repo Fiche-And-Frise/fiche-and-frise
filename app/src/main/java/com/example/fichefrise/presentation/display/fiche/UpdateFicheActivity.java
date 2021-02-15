@@ -9,6 +9,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,6 +39,7 @@ public class UpdateFicheActivity extends AppCompatActivity {
     private CreateFicheFragment fragmentRecto, fragmentVerso;
     private Theme theme;
     private Fiche fiche;
+    private long mLastClickTime = 0;
 
     private ViewPager viewPager;
 
@@ -61,8 +63,11 @@ public class UpdateFicheActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent i = new Intent(CreateFicheActivity.this, FichesListActivity.class);
-                //startActivity(i);
+                // mis-clicking prevention, using threshold of 1000 ms
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
                 updateFiche();
             }
         });

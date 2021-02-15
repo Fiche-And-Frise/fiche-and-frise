@@ -1,5 +1,6 @@
 package com.example.fichefrise.presentation.display.frise.adapter;
 
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,8 +24,8 @@ import java.util.List;
 public class FriseAdapter extends RecyclerView.Adapter<FriseAdapter.FriseViewHolder> {
 
     private List<Frise> viewItemList = Collections.emptyList();
-    private List<Theme> themesList = Collections.emptyList();
-    private FriseActionInterface friseActionInterface;
+    private final List<Theme> themesList = Collections.emptyList();
+    private final FriseActionInterface friseActionInterface;
 
     public FriseAdapter(FriseActionInterface friseActionInterface){
             this.friseActionInterface = friseActionInterface;
@@ -64,21 +65,23 @@ public class FriseAdapter extends RecyclerView.Adapter<FriseAdapter.FriseViewHol
 
     public static class FriseViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView friseNameTextView;
-        private View v;
+        private final TextView friseNameTextView;
         private Frise friseViewItem;
-        private FriseActionInterface friseActionInterface;
-        private ImageView icon;
+        private final ImageView icon;
+        private long mLastClickTime = 0;
 
         public FriseViewHolder(@NonNull View itemView, final FriseActionInterface friseActionInterface) {
             super(itemView);
-            this.v = itemView;
-            this.friseActionInterface = friseActionInterface;
             this.friseNameTextView = itemView.findViewById(R.id.friseNameTextView);
             this.icon = itemView.findViewById(R.id.frise_icon);
-            this.friseNameTextView.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    // mis-clicking prevention, using threshold of 1000 ms
+                    if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                        return;
+                    }
+                    mLastClickTime = SystemClock.elapsedRealtime();
                     friseActionInterface.onFriseClicked(friseViewItem);
                 }
             });

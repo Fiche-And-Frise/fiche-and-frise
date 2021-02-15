@@ -24,6 +24,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,6 +47,7 @@ public class FichesListActivity extends AppCompatActivity implements FicheAction
     private FicheViewModel ficheViewModel;
     private List<Theme> allThemes = new ArrayList<>();
     private static int sort = 0;
+    private long mLastClickTime = 0;
 
     private Toolbar toolbar;
     private ImageView btn_alpha_theme_sort;
@@ -66,8 +68,11 @@ public class FichesListActivity extends AppCompatActivity implements FicheAction
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
+                // mis-clicking prevention, using threshold of 1000 ms
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
                 Intent i = new Intent(FichesListActivity.this, CreateFicheActivity.class);
                 ArrayList<Theme> myThemes = new ArrayList<>(allThemes);
                 Log.i("ON CLICK", "On est ici : " + myThemes.size());

@@ -2,6 +2,7 @@ package com.example.fichefrise.presentation.display.fiche;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -61,6 +62,7 @@ public class CreateFicheActivity extends AppCompatActivity implements AdapterVie
     private CreateFicheFragment fragmentRecto, fragmentVerso;
     private Theme selectedTheme;
     private FloatingActionButton fab;
+    private  long mLastClickTime = 0;
 
     private ViewPager viewPager;
 
@@ -86,9 +88,11 @@ public class CreateFicheActivity extends AppCompatActivity implements AdapterVie
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent i = new Intent(CreateFicheActivity.this, FichesListActivity.class);
-                //startActivity(i);
-                fab.setEnabled(false);
+                // mis-clicking prevention, using threshold of 1000 ms
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
                 createNewFiche();
             }
         });
@@ -101,7 +105,11 @@ public class CreateFicheActivity extends AppCompatActivity implements AdapterVie
         addThemeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createDialog();
+                // mis-clicking prevention, using threshold of 1000 ms
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();createDialog();
             }
         });
 
@@ -236,7 +244,6 @@ public class CreateFicheActivity extends AppCompatActivity implements AdapterVie
         if(ficheName.length() < 1){
             Toast.makeText(FakeDependencyInjection.getApplicationContext(), "Veuillez entrer un nom de fiche", Toast.LENGTH_SHORT)
                     .show();
-            fab.setEnabled(true);
             return;
         }
         String ficheRecto = fragmentRecto.getContent();
@@ -270,7 +277,6 @@ public class CreateFicheActivity extends AppCompatActivity implements AdapterVie
                     @Override
                     public void onError(@NonNull Throwable e) {
                         Log.e("CREATING FICHE ERROR", e.toString());
-                        fab.setEnabled(true);
                     }
                 }));
 

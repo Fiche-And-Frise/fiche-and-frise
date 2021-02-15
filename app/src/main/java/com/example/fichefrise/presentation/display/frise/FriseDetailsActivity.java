@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -65,6 +66,7 @@ public class FriseDetailsActivity extends AppCompatActivity implements Evenement
     private ArrayList<String> evenementsNames;
     private Spinner spin;
     private int selectedEvenementIndex;
+    private long mLastClickTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +89,7 @@ public class FriseDetailsActivity extends AppCompatActivity implements Evenement
     private void setupRecyclerview() {
         recyclerView = findViewById(R.id.evenements_recyclerview);
         layoutManager = new LinearLayoutManager(this);
-        evenementAdapter = new EvenementAdapter(this);
+        evenementAdapter = new EvenementAdapter(this, frise.getDateFinFrise());
         evenementAdapter.bindViewModelList(frise.getListEvenements());
         recyclerView.setAdapter(evenementAdapter);
         recyclerView.setLayoutManager(layoutManager);
@@ -115,6 +117,11 @@ public class FriseDetailsActivity extends AppCompatActivity implements Evenement
     private void setupFabs() {
         FloatingActionButton fab = findViewById(R.id.fab_add_evenement);
         fab.setOnClickListener(v -> {
+            // mis-clicking prevention, using threshold of 1000 ms
+            if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                return;
+            }
+            mLastClickTime = SystemClock.elapsedRealtime();
             Intent i = new Intent(FriseDetailsActivity.this, CreateEvenementActivity.class);
             i.putExtra("frise", frise);
             i.putExtra("theme", theme);
@@ -125,7 +132,11 @@ public class FriseDetailsActivity extends AppCompatActivity implements Evenement
         fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteFrise();
+                // mis-clicking prevention, using threshold of 1000 ms
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();deleteFrise();
             }
         });
 
@@ -135,6 +146,11 @@ public class FriseDetailsActivity extends AppCompatActivity implements Evenement
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                // mis-clicking prevention, using threshold of 500 ms
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 2000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
                         FriseDisplayRepository repo = FakeDependencyInjection.getFriseDisplayRepository();
@@ -259,7 +275,7 @@ public class FriseDetailsActivity extends AppCompatActivity implements Evenement
                 break;
             }
         }
-        frise.getListEvenements().remove(frise.getListEvenements().size()-1);
+        //frise.getListEvenements().remove(frise.getListEvenements().size()-1);
         frise.getListEvenements().remove(evenement);
         NewFriseRequest request = new NewFriseRequest(frise, currentTheme);
         FriseDisplayRepository repo = FakeDependencyInjection.getFriseDisplayRepository();
@@ -292,7 +308,7 @@ public class FriseDetailsActivity extends AppCompatActivity implements Evenement
 
     private void updateEvenement(Evenement evenement, String name, String date) {
         Log.i("CREATING EVENEMENT", "Beginning");
-        frise.getListEvenements().remove(frise.getListEvenements().size()-1);
+        //frise.getListEvenements().remove(frise.getListEvenements().size()-1);
         frise.getListEvenements().remove(evenement);
         evenement.setNomEvenement(name);
         evenement.setDateDebutEvenement(date);

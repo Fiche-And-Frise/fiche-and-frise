@@ -1,5 +1,6 @@
 package com.example.fichefrise.presentation.display.frise.adapter;
 
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,12 +22,14 @@ import java.util.List;
 
 public class EvenementAdapter extends RecyclerView.Adapter<EvenementAdapter.EvenementViewHolder>{
 
+    private final int endDate;
     private List<Evenement> viewItemList = Collections.emptyList();
     private final static int RANDOM_EVENT = 999, LAST_EVENT = 995;
     private EvenementActionInterface evenementActionInterface;
 
-    public EvenementAdapter(EvenementActionInterface evenementActionInterface){
+    public EvenementAdapter(EvenementActionInterface evenementActionInterface, int endDate){
         this.evenementActionInterface = evenementActionInterface;
+        this.endDate = endDate;
     }
 
     @NonNull
@@ -40,7 +43,7 @@ public class EvenementAdapter extends RecyclerView.Adapter<EvenementAdapter.Even
             v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_evenement_recyclerview, parent, false);
         }
-        return new EvenementViewHolder(v, this.evenementActionInterface);
+        return new EvenementViewHolder(v, this.evenementActionInterface, endDate);
     }
 
     @Override
@@ -81,18 +84,36 @@ public class EvenementAdapter extends RecyclerView.Adapter<EvenementAdapter.Even
 
     public static class EvenementViewHolder extends RecyclerView.ViewHolder{
 
-        private TextView dateTextView, nameTextView;
+        private final TextView dateTextView, nameTextView, endDateTextView;
+        private final int endDate;
         private View view;
         private Evenement evenementViewItem;
         private EvenementActionInterface evenementActionInterface;
+        private long mLastClickTime = 0;
 
-        public EvenementViewHolder(@NonNull View itemView, EvenementActionInterface evenementActionInterface) {
+        public EvenementViewHolder(@NonNull View itemView, EvenementActionInterface evenementActionInterface, int endDate) {
             super(itemView);
             view = itemView;
+            this.endDate = endDate;
             dateTextView = view.findViewById(R.id.date_evenement_textview);
             nameTextView = view.findViewById(R.id.name_evenement_textview);
-            dateTextView.setOnClickListener( v -> evenementActionInterface.onEvenementClicked(evenementViewItem));
-            nameTextView.setOnClickListener( v -> evenementActionInterface.onEvenementClicked(evenementViewItem));
+            endDateTextView = view.findViewById(R.id.end_date_textview);
+            dateTextView.setOnClickListener( v ->{
+                    // mis-clicking prevention, using threshold of 1000 ms
+            if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                return;
+            }
+            mLastClickTime = SystemClock.elapsedRealtime();
+            evenementActionInterface.onEvenementClicked(evenementViewItem);
+            });
+            nameTextView.setOnClickListener( v -> {
+                // mis-clicking prevention, using threshold of 1000 ms
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
+                evenementActionInterface.onEvenementClicked(evenementViewItem);
+            });
         }
 
         public void bind(Evenement evenement){
@@ -103,6 +124,10 @@ public class EvenementAdapter extends RecyclerView.Adapter<EvenementAdapter.Even
                 if(evenement.getColor() != 0) {
                     nameTextView.setTextColor(evenement.getColor());
                 }
+
+            }
+            if(endDateTextView != null){
+                endDateTextView.setText(String.valueOf(endDate));
             }
         }
     }

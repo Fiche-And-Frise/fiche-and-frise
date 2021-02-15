@@ -1,5 +1,6 @@
 package com.example.fichefrise.presentation.display.fiche.adapter;
 
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,6 +70,7 @@ public class FicheAdapter extends RecyclerView.Adapter<FicheAdapter.FicheViewHol
         private Fiche ficheViewItem;
         private ImageView icon;
         private FicheActionInterface ficheActionInterface;
+        private long mLastClickTime = 0;
 
         public FicheViewHolder(@NonNull View itemView, final FicheActionInterface ficheActionInterface) {
             super(itemView);
@@ -79,7 +81,11 @@ public class FicheAdapter extends RecyclerView.Adapter<FicheAdapter.FicheViewHol
             this.ficheNameTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ficheActionInterface.onFicheClicked(ficheViewItem);
+                    // mis-clicking prevention, using threshold of 1000 ms
+                    if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                        return;
+                    }
+                    mLastClickTime = SystemClock.elapsedRealtime();ficheActionInterface.onFicheClicked(ficheViewItem);
                 }
             });
         }

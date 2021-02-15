@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,6 +50,7 @@ public class CreateFriseActivity extends AppCompatActivity implements AdapterVie
     private int themeColor = -16711423;
     private String newThemeName = "";
     private Theme selectedTheme;
+    private long mLastClickTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +73,11 @@ public class CreateFriseActivity extends AppCompatActivity implements AdapterVie
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createNewFrise();
+                // mis-clicking prevention, using threshold of 1000 ms
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();createNewFrise();
             }
         });
     }
@@ -122,6 +128,11 @@ public class CreateFriseActivity extends AppCompatActivity implements AdapterVie
         newThemeSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // mis-clicking prevention, using threshold of 1000 ms
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
                 newThemeName = newThemeNameEditText.getText().toString();
                 if(newThemeName.length()>0){
                     allThemes.add(new Theme(newThemeName, themeColor));

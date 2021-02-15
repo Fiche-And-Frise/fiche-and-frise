@@ -3,6 +3,7 @@ package com.example.fichefrise.presentation.display.frise;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -52,6 +53,7 @@ public class FrisesListActivity extends AppCompatActivity implements FriseAction
     private FriseViewModel friseViewModel;
     private ImageView btn_alpha_theme_sort;
     private boolean sort = false;
+    private long mLastClickTime = 0;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,8 +71,11 @@ public class FrisesListActivity extends AppCompatActivity implements FriseAction
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
+                // mis-clicking prevention, using threshold of 1000 ms
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
                 Intent i = new Intent(FrisesListActivity.this, CreateFriseActivity.class);
                 ArrayList<Theme> myThemes = new ArrayList<>(allThemes);
                 i.putExtra("allThemes", myThemes);

@@ -4,6 +4,7 @@ package com.example.fichefrise.presentation.display.fiche;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,6 +42,7 @@ public class DetailFicheActivity extends AppCompatActivity {
     private Fiche fiche;
     private Theme theme;
     DetailFicheFragment fragmentRecto, fragmentVerso;
+    private long mLastClickTime = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,11 @@ public class DetailFicheActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // mis-clicking prevention, using threshold of 1000 ms
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
                 Intent i = new Intent(DetailFicheActivity.this, UpdateFicheActivity.class);
                 i.putExtra("fiche", fiche);
                 i.putExtra("theme", theme);
@@ -132,6 +139,11 @@ public class DetailFicheActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // mis-clicking prevention, using threshold of 1000 ms
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
                 deleteFiche();
             }
         });
@@ -141,6 +153,11 @@ public class DetailFicheActivity extends AppCompatActivity {
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                // mis-clicking prevention, using threshold of 1000 ms
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
                 switch (which){
                     case DialogInterface.BUTTON_POSITIVE:
                         FicheDisplayRepository repo = FakeDependencyInjection.getFicheDisplayRepository();
