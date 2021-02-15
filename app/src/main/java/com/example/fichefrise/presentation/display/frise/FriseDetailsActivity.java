@@ -136,7 +136,8 @@ public class FriseDetailsActivity extends AppCompatActivity implements Evenement
                 if (SystemClock.elapsedRealtime() - mLastClickTime < 1000){
                     return;
                 }
-                mLastClickTime = SystemClock.elapsedRealtime();deleteFrise();
+                mLastClickTime = SystemClock.elapsedRealtime();
+                deleteFrise();
             }
         });
 
@@ -147,7 +148,7 @@ public class FriseDetailsActivity extends AppCompatActivity implements Evenement
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // mis-clicking prevention, using threshold of 500 ms
-                if (SystemClock.elapsedRealtime() - mLastClickTime < 2000){
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 500){
                     return;
                 }
                 mLastClickTime = SystemClock.elapsedRealtime();
@@ -249,6 +250,7 @@ public class FriseDetailsActivity extends AppCompatActivity implements Evenement
 
         evenementDeleteButton.setOnClickListener(v -> {
             deleteEvenement(evenement);
+            dialog.dismiss();
         });
 
         evenementValidateButton.setOnClickListener( v -> {
