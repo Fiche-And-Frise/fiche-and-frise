@@ -18,6 +18,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,6 +31,7 @@ public class ImportEvenementFragment extends Fragment{
     private TextInputEditText dateInput;
     private List<Fiche> fiches;
     private List<String> fichesNames = new ArrayList<>();
+    private Fiche selectedFiche = null;
 
     public ImportEvenementFragment() {
         // Required empty public constructor
@@ -68,9 +70,18 @@ public class ImportEvenementFragment extends Fragment{
         }
 
         // Create the adapter and set it to the AutoCompleteTextView
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(this.getContext(), android.R.layout.simple_list_item_1, fichesNames);
+        ArrayAdapter<Fiche> adapter =
+                new ArrayAdapter<>(this.getContext(), android.R.layout.simple_list_item_1, fiches);
         acTextView.setAdapter(adapter);
+        acTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View arg1, int pos,
+                                    long id) {
+                selectedFiche = (Fiche) parent.getItemAtPosition(pos);
+                //your stuff
+            }
+        });
 
     }
 
@@ -78,12 +89,12 @@ public class ImportEvenementFragment extends Fragment{
         return "Importer";
     }
 
-    public String getSelectedFiche(){
-        return this.acTextView.getText().toString();
+    public Fiche getSelectedFiche(){
+        return this.selectedFiche;
     }
 
     public String getEvenementDate(){
-        return dateInput.getText().toString();
+        return Objects.requireNonNull(dateInput.getText()).toString();
     }
 
 }

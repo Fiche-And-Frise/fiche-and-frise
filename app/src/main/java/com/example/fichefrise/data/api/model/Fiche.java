@@ -81,9 +81,7 @@ public class Fiche implements Serializable{
     @NonNull
     @Override
     public String toString() {
-        String response = "Id : " + this.getFicheId() +
-                "\nNom : " + this.getNomFiche();
-        return response;
+        return getNomFiche();
     }
 
     public static Comparator<Fiche> comparator = (f1, f2) -> f1.getNomFiche().compareTo(f2.getNomFiche());

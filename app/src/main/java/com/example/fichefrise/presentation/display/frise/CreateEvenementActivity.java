@@ -158,7 +158,7 @@ public class CreateEvenementActivity extends AppCompatActivity implements Adapte
             List<Theme> themeList = FakeDependencyInjection.getAllThemes();
             for(Theme t : themeList){
                 for(Fiche f : t.getListFiches()) {
-                    if(f.getNomFiche().equals(fragmentImport.getSelectedFiche())) {
+                    if(f == fragmentImport.getSelectedFiche()) {
                         ficheId = f.getFicheId();
                         themeId = t.getThemeId();
                         newEvenementName = f.getNomFiche();
